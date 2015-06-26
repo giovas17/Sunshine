@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Sunshine</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="lista">
+        <item>Yesterday - Sunny - 88/63</item>
+        <item>Today - Sunny - 88/63</item>
+        <item>Tomorrow - Sunny - 88/63</item>
+        <item>The day after tomorrow - Sunny - 88/63</item>
+    </string-array>
+    <string name="action_refresh" transladable="false">Refresh</string>
+    <string name="action_map">Location on Map</string>
+    <string name="action_share">Share</string>
+</resources>
