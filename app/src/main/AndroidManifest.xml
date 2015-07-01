@@ -27,6 +27,9 @@
             android:parentActivityName=".MainActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <provider
+            android:authorities="softwaremobility.darkgeat.sunshine.app"
+            android:name=".data.WeatherProvider"/>
     </application>
 
 </manifest>
