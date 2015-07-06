@@ -29,7 +29,14 @@
         </activity>
         <provider
             android:authorities="softwaremobility.darkgeat.sunshine.app"
-            android:name=".data.WeatherProvider"/>
+            android:name=".data.WeatherProvider"
+            android:exported="true"
+            android:permission="softwaremobility.darkgeat.LICENCE_TO_KILL"/>
     </application>
+
+    <permission android:name="softwaremobility.darkgeat.LICENCE_TO_KILL"
+        android:protectionLevel="dangerous"
+        android:label="Licenced to Kill">
+    </permission>
 
 </manifest>
