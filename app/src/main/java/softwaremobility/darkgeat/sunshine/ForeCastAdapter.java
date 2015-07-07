@@ -6,6 +6,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
@@ -15,45 +16,70 @@ import softwaremobility.darkgeat.sunshine.data.WeatherContract;
  */
 public class ForeCastAdapter extends CursorAdapter {
 
+    private final int VIEW_TYPE_TODAY = 0;
+    private final int VIEW_TYPE_FUTURE_DAY = 1;
+
     public ForeCastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
-    /**
-     * Prepare the weather high/lows for presentation.
-     */
-    private String formatHighLows(double high, double low) {
-        boolean isMetric = Utility.isMetric(mContext);
-        String highLowStr = Utility.formatTemperature(high, isMetric) + "/" + Utility.formatTemperature(low, isMetric);
-        return highLowStr;
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_forecast,parent,false);
+        int viewType = getItemViewType(cursor.getPosition());
+        int layoutId = (viewType == 0) ? R.layout.list_item_forecast_today : R.layout.list_item_forecast;
+        View view = LayoutInflater.from(mContext).inflate(layoutId,parent,false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
 
         return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView tv = (TextView) view;
-        tv.setText(convertCursorRowToUXFormat(cursor));
+
+        long dateInMillis = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
+
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
+
+        viewHolder.tday.setText(Utility.getFriendlyDayString(context, dateInMillis));
+
+        boolean isMetric = Utility.isMetric(context);
+        double hight = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
+
+        viewHolder.tmax.setText(Utility.formatTemperature(context,hight,isMetric));
+
+        double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
+        viewHolder.tmin.setText(Utility.formatTemperature(context,low,isMetric));
+
+        String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+        viewHolder.description.setText(description);
     }
 
-    private String convertCursorRowToUXFormat(Cursor cursor) {
-        // get row indices for our cursor
-        int idx_max_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP);
-        int idx_min_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP);
-        int idx_date = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_DATE);
-        int idx_short_desc = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_SHORT_DESC);
+    static class ViewHolder {
+        public final TextView tday;
+        public final TextView tmax;
+        public final TextView tmin;
+        public final ImageView iconWeather;
+        public final TextView description;
 
-        String highAndLow = formatHighLows(
-                cursor.getDouble(idx_max_temp),
-                cursor.getDouble(idx_min_temp));
+        public ViewHolder(View view){
+            iconWeather = (ImageView)view.findViewById(R.id.imageIconWeather);
+            tday = (TextView) view.findViewById(R.id.textDay);
+            description = (TextView) view.findViewById(R.id.textWeather);
+            tmax = (TextView) view.findViewById(R.id.textMaxTemp);
+            tmin = (TextView) view.findViewById(R.id.textMinTemp);
+        }
 
-        return Utility.formatDate(cursor.getLong(idx_date)) +
-                " - " + cursor.getString(idx_short_desc) +
-                " - " + highAndLow;
     }
+
 }
