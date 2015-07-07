@@ -25,14 +25,14 @@ public class Utility {
                 mContext.getString(R.string.pref_units_metric)).equals(mContext.getString(R.string.pref_units_metric));
     }
 
-    public static String formatTemperature(double temperature, boolean isMetric) {
+    public static String formatTemperature(Context mContext, double temperature, boolean isMetric) {
         double temp;
         if (!isMetric){
             temp = 9 * temperature / 5 + 52;
         }else{
             temp = temperature;
         }
-        return String.format("%.0f", temp);
+        return mContext.getString(R.string.format_temperature,temp);
     }
 
     public static String formatDate(long dateInMillis) {
