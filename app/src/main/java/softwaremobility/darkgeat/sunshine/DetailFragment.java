@@ -133,35 +133,51 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         Log.v(LOG_TAG, "In onLoadFinished");
-        if (!data.moveToFirst()) { return; }
+        if (data != null && data.moveToFirst()) {
 
-        long date = data.getLong(COL_WEATHER_DATE);
-        String dateString = Utility.getDayName(getActivity(),date);
-        String dayMonthText = Utility.getFormattedMonthDay(getActivity(), date);
+            int weatherId = data.getInt(data.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID));
+            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
-        mFriendlyDateView.setText(dateString);
-        mDateView.setText(dayMonthText);
+            long date = data.getLong(COL_WEATHER_DATE);
+            String dateString = Utility.getDayName(getActivity(), date);
+            String dayMonthText = Utility.getFormattedMonthDay(getActivity(), date);
 
-        String weatherDescription = data.getString(COL_WEATHER_DESC);
-        mDescriptionView.setText(weatherDescription);
+            mFriendlyDateView.setText(dateString);
+            mDateView.setText(dayMonthText);
 
-        boolean isMetric = Utility.isMetric(getActivity());
+            String weatherDescription = data.getString(COL_WEATHER_DESC);
+            mDescriptionView.setText(weatherDescription);
 
-        String high = Utility.formatTemperature(getActivity(),
-                data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
-        mHighTempView.setText(high);
+            boolean isMetric = Utility.isMetric(getActivity());
 
-        String low = Utility.formatTemperature(getActivity(),
-                data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
-        mLowTempView.setText(low);
+            String high = Utility.formatTemperature(getActivity(),
+                    data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            mHighTempView.setText(high);
 
-        mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
+            String low = Utility.formatTemperature(getActivity(),
+                    data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            mLowTempView.setText(low);
 
+            String humidity = getString(R.string.format_humidity,
+                    data.getFloat(COL_WEATHER_HUMIDITY));
+            mHumidityView.setText(humidity);
 
-        // If onCreateOptionsMenu has already happened, we need to update the share intent now.
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareForecastIntent());
+            float pressure = data.getFloat(COL_WEATHER_PRESSURE);
+            String sPressure = getString(R.string.format_pressure, pressure);
+            mPressureView.setText(sPressure);
+
+            float windSpeed = data.getFloat(COL_WEATHER_WIND_SPEED);
+            float windDirection = data.getFloat(COL_WEATHER_DEGREES);
+            String wind = Utility.getFormattedWind(getActivity(), windSpeed, windDirection);
+            mWindView.setText(wind);
+            mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
+
+            // If onCreateOptionsMenu has already happened, we need to update the share intent now.
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(createShareForecastIntent());
+            }
         }
+
     }
 
     @Override
