@@ -1,6 +1,5 @@
 package softwaremobility.darkgeat.sunshine;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -92,9 +91,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) mForecastAdapter.getItem(position);
                 if (cursor != null) {
                     String locationSetting = Utility.getPreffrerredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-                    startActivity(intent);
+                    ((Callback)getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
+                            cursor.getLong(COL_WEATHER_DATE)));
                 }
             }
         });
@@ -148,5 +146,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    public interface Callback{
+
+        void onItemSelected(Uri dateUri);
     }
 }

@@ -13,7 +13,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Today"
             android:textSize="24sp"
             android:id="@+id/detail_day_text" />
 
@@ -21,7 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="June 24"
             android:id="@+id/detail_month_text"
             android:textSize="16sp" />
 
@@ -41,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="22°"
                     android:textSize="96sp"
                     android:id="@+id/detail_max_temp" />
 
@@ -49,7 +46,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="12°"
                     android:textSize="48sp"
                     android:id="@+id/detail_min_temp" />
             </LinearLayout>
@@ -63,14 +59,12 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/detail_icon_weather"
-                    android:src="@drawable/art_clear" />
+                    android:id="@+id/detail_icon_weather" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Clear"
                     android:id="@+id/detail_desc_text"
                     android:layout_gravity="center_horizontal"
                     android:textSize="22sp" />
@@ -81,7 +75,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Humidity: 71%"
             android:id="@+id/detail_humidity_text"
             android:textSize="22sp"
             android:layout_marginTop="4dp" />
@@ -90,7 +83,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Pressure: 1016 hPa"
             android:id="@+id/detail_pressure_text"
             android:textSize="22sp"
             android:layout_marginTop="4dp" />
@@ -99,7 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Wind: 2 Km/h NW"
             android:id="@+id/detail_wind_text"
             android:textSize="22sp"
             android:layout_marginTop="4dp" />

@@ -10,11 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
 
-    private static final String FORECASTFRAGMENT_TAG = "ForeCastFragmentTAG";
     private String mLocation;
     private boolean mTwoPane;
+    public static final String DETAILFRAGMENT_TAG = "DetailFragmentTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,11 @@ public class MainActivity extends ActionBarActivity {
             mTwoPane = true;
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_container, new DetailFragment())
+                        .replace(R.id.detail_container, new DetailFragment(),DETAILFRAGMENT_TAG)
                         .commit();
             }
+        }else {
+            mTwoPane = false;
         }
 
     }
@@ -79,7 +81,26 @@ public class MainActivity extends ActionBarActivity {
             if( null != forecastFragment){
                 forecastFragment.onLocationChanged();
             }
+            DetailFragment detailFragment = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            if( null != detailFragment){
+                detailFragment.onLocationChanged(location);
+            }
             mLocation = location;
+        }
+    }
+
+    @Override
+    public void onItemSelected(Uri dateUri) {
+        if(mTwoPane){
+            Bundle args = new Bundle();
+            args.putParcelable(DetailFragment.DETAIL_URI,dateUri);
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container,fragment,DETAILFRAGMENT_TAG).commit();
+        }else {
+            Intent intent = new Intent(this,DetailActivity.class);
+            intent.setData(dateUri);
+            startActivity(intent);
         }
     }
 }
