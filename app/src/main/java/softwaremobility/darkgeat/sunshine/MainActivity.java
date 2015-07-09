@@ -14,16 +14,22 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String FORECASTFRAGMENT_TAG = "ForeCastFragmentTAG";
     private String mLocation;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment(),FORECASTFRAGMENT_TAG)
-                    .commit();
+
+        if(findViewById(R.id.detail_container) != null){
+            mTwoPane = true;
+            if(savedInstanceState == null){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_container, new DetailFragment())
+                        .commit();
+            }
         }
+
     }
 
 
@@ -69,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         String location = Utility.getPreffrerredLocation(this);
         if(location != null && !location.equals(mLocation)){
-            ForecastFragment forecastFragment = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            ForecastFragment forecastFragment = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.IdForecastFragment);
             if( null != forecastFragment){
                 forecastFragment.onLocationChanged();
             }

@@ -34,7 +34,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static String mForecast;
     private static final int DETAIL_LOADER = 0;
 
-    private static final String[] FORECAST_COLUMNS = {
+    private static final String[] DETAIL_COLUMNS = {
         WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
         WeatherContract.WeatherEntry.COLUMN_DATE,
         WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
@@ -122,11 +122,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Intent intent = getActivity().getIntent();
-        if(intent == null){
+        if(intent == null || intent.getData() == null){
             return null;
         }
 
-        return new CursorLoader(getActivity(),intent.getData(),FORECAST_COLUMNS,null,null,null);
+        return new CursorLoader(
+                getActivity(),
+                intent.getData(),
+                DETAIL_COLUMNS,
+                null,
+                null,
+                null
+        );
 
     }
 
