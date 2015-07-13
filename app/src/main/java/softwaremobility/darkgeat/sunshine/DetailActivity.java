@@ -37,9 +37,11 @@ public class DetailActivity extends ActionBarActivity {
         bar.setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_container, new DetailFragment())
-                    .commit();
+            Bundle args = new Bundle();
+            args.putParcelable(DetailFragment.DETAIL_URI,getIntent().getData());
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, MainActivity.DETAILFRAGMENT_TAG).commit();
         }
     }
 
