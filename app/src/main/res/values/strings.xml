@@ -21,4 +21,5 @@
     <string name="format_pressure">Pressure: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
     <string name="format_wind_kmh">Wind: <xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_wind_mph">Wind: <xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_sharing_weather">The weather for <xliff:g id="day">%1$1s</xliff:g> is <xliff:g id="weather">%2$s</xliff:g></string>
 </resources>

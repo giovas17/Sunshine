@@ -183,7 +183,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             float windDirection = data.getFloat(COL_WEATHER_DEGREES);
             String wind = Utility.getFormattedWind(getActivity(), windSpeed, windDirection);
             mWindView.setText(wind);
-            mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
+            mForecast = String.format("%s - %s/%s", weatherDescription, high, low);
+            dataDay = getString(R.string.format_sharing_weather,dateString + ", " + dayMonthText,mForecast);
 
             // If onCreateOptionsMenu has already happened, we need to update the share intent now.
             if (mShareActionProvider != null) {
