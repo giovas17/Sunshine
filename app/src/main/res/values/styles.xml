@@ -10,6 +10,10 @@
 
     </style>
 
+    <!-- Settings activity theme. -->
+    <style name="SettingsTheme" parent="AppTheme">
+    </style>
+
     <!-- Main activity theme. -->
     <style name="ForecastTheme" parent="AppTheme">
         <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>

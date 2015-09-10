@@ -152,7 +152,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             int weatherId = data.getInt(data.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID));
             Glide.with(this).load(Utility.getAnimationResourceForWeatherCondition(weatherId))
-                    .asGif().fitCenter().placeholder(Utility.getArtResourceForWeatherCondition(weatherId))
+                    .asGif().centerCrop().placeholder(Utility.getArtResourceForWeatherCondition(weatherId))
                     .error(Utility.getArtResourceForWeatherCondition(weatherId)).into(mIconView);
             //mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
