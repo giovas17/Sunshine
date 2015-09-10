@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 
 /**
@@ -149,7 +151,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (data != null && data.moveToFirst()) {
 
             int weatherId = data.getInt(data.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID));
-            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+            Glide.with(this).load(Utility.getAnimationResourceForWeatherCondition(weatherId))
+                    .asGif().fitCenter().placeholder(Utility.getArtResourceForWeatherCondition(weatherId))
+                    .error(Utility.getArtResourceForWeatherCondition(weatherId)).into(mIconView);
+            //mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
             long date = data.getLong(COL_WEATHER_DATE);
             String dateString = Utility.getDayName(getActivity(), date);

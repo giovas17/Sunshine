@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/IdForecastFragment"
         android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
-        android:layout_weight="2"
+        android:layout_weight="3"
         tools:layout="@android:layout/list_content"/>
     <FrameLayout
         android:layout_width="0dp"

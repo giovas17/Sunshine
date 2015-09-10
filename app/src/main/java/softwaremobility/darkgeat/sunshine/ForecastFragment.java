@@ -14,6 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -84,6 +88,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         list = (ListView) v.findViewById(R.id.listview_forecast);
+        Animation animation = new ScaleAnimation((float) 1.0, (float) 1.0, (float) 0, (float) 1.0);
+        //Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+        animation.setDuration(500);
+        LayoutAnimationController controller = new LayoutAnimationController(animation,0.9f);
+        //controller.setOrder(LayoutAnimationController.ORDER_REVERSE);
+        list.setLayoutAnimation(controller);
         list.setAdapter(mForecastAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
