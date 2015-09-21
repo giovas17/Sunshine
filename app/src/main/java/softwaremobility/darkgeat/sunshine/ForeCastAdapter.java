@@ -3,11 +3,14 @@ package softwaremobility.darkgeat.sunshine;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 
@@ -36,11 +39,11 @@ public class ForeCastAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         int viewType = getItemViewType(cursor.getPosition());
-        int layoutId = (viewType == 0) ? R.layout.list_item_forecast_today : R.layout.list_item_forecast;
+        int layoutId = (viewType == VIEW_TYPE_TODAY) ? R.layout.list_item_forecast_today : R.layout.list_item_forecast;
         View view = LayoutInflater.from(mContext).inflate(layoutId,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
-
+        Log.e("newView","Posicion: " + String.valueOf(cursor.getPosition()));
         return view;
     }
 
@@ -54,8 +57,17 @@ public class ForeCastAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
         switch (viewType){
             case VIEW_TYPE_TODAY:{
-                viewHolder.iconWeather.setImageResource(Utility.getArtResourceForWeatherCondition(
-                        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+                Glide.with(context).load(Utility.getAnimationResourceForWeatherCondition(
+                        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)))
+                        .asGif()
+                        .placeholder(Utility.getArtResourceForWeatherCondition(
+                                cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)))
+                        .error(Utility.getArtResourceForWeatherCondition(
+                                cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)))
+                        .fitCenter()
+                        .into(viewHolder.iconWeather);
+                //viewHolder.iconWeather.setImageResource(Utility.getArtResourceForWeatherCondition(
+                //        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
                 break;
             }
             case VIEW_TYPE_FUTURE_DAY: {
@@ -77,6 +89,8 @@ public class ForeCastAdapter extends CursorAdapter {
 
         String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.description.setText(description);
+
+        Log.e("BindView", "Posicion: " + String.valueOf(cursor.getPosition()));
     }
 
     static class ViewHolder {
