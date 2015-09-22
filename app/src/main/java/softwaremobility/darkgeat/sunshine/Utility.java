@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import softwaremobility.darkgeat.objects.WindSpeedControl;
+
 /**
  * Created by darkgeat on 1/07/15.
  */
@@ -265,5 +267,27 @@ public class Utility {
             return R.drawable.art_clouds;
         }
         return -1;
+    }
+
+    public static WindSpeedControl.Direction getWindDirection(float degrees){
+
+        if (degrees >= 337.5 || degrees < 22.5) {
+            return WindSpeedControl.Direction.NORTH;
+        } else if (degrees >= 22.5 && degrees < 67.5) {
+            return WindSpeedControl.Direction.NORTHEAST;
+        } else if (degrees >= 67.5 && degrees < 112.5) {
+            return WindSpeedControl.Direction.EAST;
+        } else if (degrees >= 112.5 && degrees < 157.5) {
+            return WindSpeedControl.Direction.SOUTHEAST;
+        } else if (degrees >= 157.5 && degrees < 202.5) {
+            return WindSpeedControl.Direction.SOUTH;
+        } else if (degrees >= 202.5 && degrees < 247.5) {
+            return WindSpeedControl.Direction.SOUTHWEST;
+        } else if (degrees >= 247.5 && degrees < 292.5) {
+            return WindSpeedControl.Direction.WEST;
+        } else if (degrees >= 292.5 && degrees < 337.5) {
+            return WindSpeedControl.Direction.NORTHWEST;
+        }else
+            return WindSpeedControl.Direction.NORTH;
     }
 }

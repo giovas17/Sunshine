@@ -65,6 +65,7 @@
             <softwaremobility.darkgeat.objects.WindSpeedControl
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:id="@+id/SpeedControl"
                 custom:wind_direction="north"/>
         </LinearLayout>
 

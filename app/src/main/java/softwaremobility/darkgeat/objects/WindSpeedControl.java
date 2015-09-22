@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import softwaremobility.darkgeat.sunshine.R;
@@ -26,13 +27,16 @@ public class WindSpeedControl extends View{
     private int x, y;
     private float textSize = 19f;
     private int framesPerSecond = 60;
-    private int animationDuration = 1000; //one second
+    private boolean finishAnimation = false;
+    private int currentDegrees = 0;
     private Context mContext;
     private Canvas mCanvas;
 
     public WindSpeedControl(Context context) {
         super(context);
         mContext = context;
+        finishAnimation = false;
+        postInvalidate();
     }
 
     public WindSpeedControl(Context context, AttributeSet attrs) {
@@ -44,6 +48,8 @@ public class WindSpeedControl extends View{
         }finally {
             typedArray.recycle();
         }
+        finishAnimation = false;
+        postInvalidate();
     }
 
     public WindSpeedControl(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -55,6 +61,8 @@ public class WindSpeedControl extends View{
         }finally {
             typedArray.recycle();
         }
+        finishAnimation = false;
+        postInvalidate();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -67,6 +75,8 @@ public class WindSpeedControl extends View{
         }finally {
             typedArray.recycle();
         }
+        finishAnimation = false;
+        postInvalidate();
     }
 
     @Override
@@ -137,62 +147,61 @@ public class WindSpeedControl extends View{
         canvas.drawText(mContext.getString(R.string.east), (x * 2) - textSize + 2, y + pos, textPaint);
         canvas.drawText(mContext.getString(R.string.west), textSize - (pos * 2), y + pos, textPaint);
 
+        //Layers for rotated labels
         Canvas canNE = canvas;
         Canvas canNW = canvas;
         canNE.save();
         canNW.save();
 
-        //Points for Triangle
-        Point a = new Point(x, y - (int) ((height / 2) - textSize));
-        Point b = new Point(x - (height / 17), y);
-        Point c = new Point(x + (height / 17), y);
+        //Indicator
+        if(!finishAnimation)
+            setWindSpeedDirection(direction);
 
-        Path path = new Path();
-        path.moveTo(a.x, a.y);
-        path.lineTo(b.x, b.y);
-        path.lineTo(c.x, c.y);
-        path.lineTo(a.x, a.y);
-        path.close();
-        //setWindSpeedDirection(direction);
-        //canvas.drawPath(path, redBrush);
-        //canNE.drawPath(path, redBrush);
         canNE.rotate(45, x, y);
         canNE.drawText(mContext.getString(R.string.north_east), x - (pos * 2), textSize, textPaint);
         canNE.drawText(mContext.getString(R.string.south_west), x - (pos * 2), y * 2 - 2, textPaint);
         canNW.rotate(270, x, y);
         canNW.drawText(mContext.getString(R.string.north_west), x - (pos * 2), textSize, textPaint);
         canNW.drawText(mContext.getString(R.string.south_east), x - (pos * 2), y * 2 - 2, textPaint);
-        //canNW.drawText(mContext.getString(R.string.north_west), x - (pos*2), size, textPaint);
-        mCanvas.rotate(direction + 45, x, y);
-        mCanvas.drawPath(path, redBrush);
-        //canNE.restore();
-        //canNW.restore();
         canvas.restore();
+
+        if (!finishAnimation) {
+            postInvalidateDelayed(1000 / framesPerSecond);
+        }
 
     }
 
     public void setWindSpeedDirection(int direction){
+        //----Point for the triangle indicator-------
         Point a = new Point(x, y - (int) ((height / 2) - textSize));
         Point b = new Point(x - (height / 17), y);
         Point c = new Point(x + (height / 17), y);
+
         Path path = new Path();
         path.moveTo(a.x, a.y);
         path.lineTo(b.x, b.y);
         path.lineTo(c.x, c.y);
         path.lineTo(a.x, a.y);
         path.close();
-        Paint redBrush = new Paint();
+
+        //Red Brush for the painting
+        Paint redBrush = new Paint(Paint.ANTI_ALIAS_FLAG);
         redBrush.setColor(Color.RED);
-        redBrush.setAntiAlias(true);
         redBrush.setStrokeWidth(3f);
+
+        if(currentDegrees != direction) {
+            //matrix.postRotate(currentDegrees++,x,y);
+            mCanvas.rotate(currentDegrees++, x, y);
+        }else {
+            finishAnimation = true;
+            mCanvas.rotate(direction, x, y);
+        }
         mCanvas.drawPath(path, redBrush);
-        mCanvas.save();
-        mCanvas.rotate(direction,x,y);
         mCanvas.restore();
     }
 
     public void setWindSpeedDirection(Direction direction){
-        setWindSpeedDirection(direction.value);
+        this.direction = direction.value;
     }
 
     public enum Direction{
