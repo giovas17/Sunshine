@@ -22,8 +22,13 @@ public class WindSpeedControl extends View{
 
     private int width = 150;
     private int height = 150;
-    private int direction = 90;
+    private int direction = Direction.NORTH.value;
+    private int x, y;
+    private float textSize = 19f;
+    private int framesPerSecond = 60;
+    private int animationDuration = 1000; //one second
     private Context mContext;
+    private Canvas mCanvas;
 
     public WindSpeedControl(Context context) {
         super(context);
@@ -35,7 +40,7 @@ public class WindSpeedControl extends View{
         mContext = context;
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs,R.styleable.WindSpeedControl,0,0);
         try{
-            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,90);
+            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,0);
         }finally {
             typedArray.recycle();
         }
@@ -46,7 +51,7 @@ public class WindSpeedControl extends View{
         mContext = context;
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs,R.styleable.WindSpeedControl,0,0);
         try{
-            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,90);
+            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,0);
         }finally {
             typedArray.recycle();
         }
@@ -58,7 +63,7 @@ public class WindSpeedControl extends View{
         mContext = context;
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs,R.styleable.WindSpeedControl,0,0);
         try{
-            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,90);
+            direction = typedArray.getInteger(R.styleable.WindSpeedControl_wind_direction,0);
         }finally {
             typedArray.recycle();
         }
@@ -92,77 +97,118 @@ public class WindSpeedControl extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         //Location
-        int x = getWidth() / 2;
-        int y = getHeight() / 2;
-        float size = 19f;
-        int pos = (int) (size / 2);
+        x = getWidth() / 2;
+        y = getHeight() / 2;
+        int pos = (int) (textSize / 2);
 
         //Brushes
-        Paint blueBrush = new Paint();
+        Paint blueBrush = new Paint(Paint.ANTI_ALIAS_FLAG);
         blueBrush.setColor(mContext.getResources().getColor(R.color.sunshine_blue));
-        blueBrush.setAntiAlias(true);
         blueBrush.setStrokeWidth(3f);
 
-        Paint whiteBrush = new Paint();
+        Paint whiteBrush = new Paint(Paint.ANTI_ALIAS_FLAG);
         whiteBrush.setColor(mContext.getResources().getColor(R.color.background_wind_speed));
-        whiteBrush.setAntiAlias(true);
         whiteBrush.setStrokeWidth(3f);
 
-        Paint redBrush = new Paint();
+        Paint redBrush = new Paint(Paint.ANTI_ALIAS_FLAG);
         redBrush.setColor(Color.RED);
-        redBrush.setAntiAlias(true);
         redBrush.setStrokeWidth(3f);
 
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(Color.YELLOW);
         textPaint.setFakeBoldText(true);
         textPaint.setStrokeWidth(2f);
-        textPaint.setTextSize(size);
-        size = textPaint.getTextSize();
+        textPaint.setTextSize(textSize);
+        textSize = textPaint.getTextSize();
 
         //External Circle
         canvas.drawCircle(x, y, height / 2, blueBrush);
         //Internal Circle
-        canvas.drawCircle(x, y, (height / 2) - size, whiteBrush);
+        canvas.drawCircle(x, y, (height / 2) - textSize, whiteBrush);
         //Indicator Circle
         canvas.drawCircle(x, y, (height / 17), redBrush);
-        //canvas.save();
-        //canvas.rotate(45);
+
+        mCanvas = canvas;
+        mCanvas.save();
+
+        //Direction labels
+        canvas.drawText(mContext.getString(R.string.north), x - pos, textSize, textPaint);
+        canvas.drawText(mContext.getString(R.string.south), x - pos, y * 2 - 2, textPaint);
+        canvas.drawText(mContext.getString(R.string.east), (x * 2) - textSize + 2, y + pos, textPaint);
+        canvas.drawText(mContext.getString(R.string.west), textSize - (pos * 2), y + pos, textPaint);
+
+        Canvas canNE = canvas;
+        Canvas canNW = canvas;
+        canNE.save();
+        canNW.save();
+
         //Points for Triangle
-        Point a = new Point();
-        Point b = new Point();
-        Point c = new Point();
-        if(direction == 90) { //North
-            a = new Point(x, y - (int) ((height / 2) - size));
-            b = new Point(x - (height / 17), y);
-            c = new Point(x + (height / 17), y);
-        }else if(direction == 270){ //South
-            a = new Point(x, y + (int) ((height / 2) - size));
-            b = new Point(x - (height / 17), y);
-            c = new Point(x + (height / 17), y);
-        }else if(direction == 180){ //West
-            a = new Point(x - (int) ((width / 2) - size), y);
-            b = new Point(x, y - (height / 17));
-            c = new Point(x, y + (height / 17));
-        }else if(direction == 0){ //East
-            a = new Point(x + (int) ((width / 2) - size), y);
-            b = new Point(x, y - (height / 17));
-            c = new Point(x, y + (height / 17));
-        }
+        Point a = new Point(x, y - (int) ((height / 2) - textSize));
+        Point b = new Point(x - (height / 17), y);
+        Point c = new Point(x + (height / 17), y);
+
         Path path = new Path();
         path.moveTo(a.x, a.y);
         path.lineTo(b.x, b.y);
         path.lineTo(c.x, c.y);
         path.lineTo(a.x, a.y);
         path.close();
-        canvas.drawPath(path, redBrush);
-       // canvas.restore();
+        //setWindSpeedDirection(direction);
+        //canvas.drawPath(path, redBrush);
+        //canNE.drawPath(path, redBrush);
+        canNE.rotate(45, x, y);
+        canNE.drawText(mContext.getString(R.string.north_east), x - (pos * 2), textSize, textPaint);
+        canNE.drawText(mContext.getString(R.string.south_west), x - (pos * 2), y * 2 - 2, textPaint);
+        canNW.rotate(270, x, y);
+        canNW.drawText(mContext.getString(R.string.north_west), x - (pos * 2), textSize, textPaint);
+        canNW.drawText(mContext.getString(R.string.south_east), x - (pos * 2), y * 2 - 2, textPaint);
+        //canNW.drawText(mContext.getString(R.string.north_west), x - (pos*2), size, textPaint);
+        mCanvas.rotate(direction + 45, x, y);
+        mCanvas.drawPath(path, redBrush);
+        //canNE.restore();
+        //canNW.restore();
+        canvas.restore();
 
+    }
 
+    public void setWindSpeedDirection(int direction){
+        Point a = new Point(x, y - (int) ((height / 2) - textSize));
+        Point b = new Point(x - (height / 17), y);
+        Point c = new Point(x + (height / 17), y);
+        Path path = new Path();
+        path.moveTo(a.x, a.y);
+        path.lineTo(b.x, b.y);
+        path.lineTo(c.x, c.y);
+        path.lineTo(a.x, a.y);
+        path.close();
+        Paint redBrush = new Paint();
+        redBrush.setColor(Color.RED);
+        redBrush.setAntiAlias(true);
+        redBrush.setStrokeWidth(3f);
+        mCanvas.drawPath(path, redBrush);
+        mCanvas.save();
+        mCanvas.rotate(direction,x,y);
+        mCanvas.restore();
+    }
 
-        canvas.drawText(mContext.getString(R.string.north), x - pos, size, textPaint);
-        canvas.drawText(mContext.getString(R.string.south), x - pos, y * 2 - 2, textPaint);
-        canvas.drawText(mContext.getString(R.string.east), (x * 2) - size + 2, y + pos, textPaint);
-        canvas.drawText(mContext.getString(R.string.west), size - (pos * 2), y + pos, textPaint);
+    public void setWindSpeedDirection(Direction direction){
+        setWindSpeedDirection(direction.value);
+    }
+
+    public enum Direction{
+        NORTH(0),
+        NORTHEAST(45),
+        EAST(90),
+        SOUTHEAST(135),
+        SOUTH(180),
+        SOUTHWEST(225),
+        WEST(270),
+        NORTHWEST(315);
+
+        private int value;
+        Direction(int value){
+            this.value = value;
+        }
+
     }
 }
