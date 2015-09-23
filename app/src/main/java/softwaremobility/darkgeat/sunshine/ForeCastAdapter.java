@@ -43,7 +43,6 @@ public class ForeCastAdapter extends CursorAdapter {
         View view = LayoutInflater.from(mContext).inflate(layoutId,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
-        Log.e("newView","Posicion: " + String.valueOf(cursor.getPosition()));
         return view;
     }
 
@@ -89,8 +88,6 @@ public class ForeCastAdapter extends CursorAdapter {
 
         String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.description.setText(description);
-
-        Log.e("BindView", "Posicion: " + String.valueOf(cursor.getPosition()));
     }
 
     static class ViewHolder {

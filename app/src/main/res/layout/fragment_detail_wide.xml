@@ -66,6 +66,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:id="@+id/SpeedControl"
+                android:layout_marginTop="@dimen/normal_padding"
                 custom:wind_direction="north"/>
         </LinearLayout>
 
