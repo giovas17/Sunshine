@@ -154,8 +154,7 @@ public class WindSpeedControl extends View{
         canNW.save();
 
         //Indicator
-        if(!finishAnimation)
-            setWindSpeedDirection(direction);
+        setWindSpeedDirection(direction);
 
         canNE.rotate(45, x, y);
         canNE.drawText(mContext.getString(R.string.north_east), x - (pos * 2), textSize, textPaint);
