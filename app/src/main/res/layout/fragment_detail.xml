@@ -102,6 +102,7 @@
         <softwaremobility.darkgeat.objects.WindSpeedControl
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_padding"
             android:id="@+id/SpeedControl"
             custom:wind_direction="north"/>
 
