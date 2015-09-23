@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import softwaremobility.darkgeat.sunshine.R;
@@ -26,7 +25,6 @@ public class WindSpeedControl extends View{
     private int direction = Direction.NORTH.value;
     private int x, y;
     private float textSize = 19f;
-    private int framesPerSecond = 60;
     private boolean finishAnimation = false;
     private int currentDegrees = 0;
     private Context mContext;
@@ -110,6 +108,7 @@ public class WindSpeedControl extends View{
         x = getWidth() / 2;
         y = getHeight() / 2;
         int pos = (int) (textSize / 2);
+        int framesPerSecond = 60;
 
         //Brushes
         Paint blueBrush = new Paint(Paint.ANTI_ALIAS_FLAG);
