@@ -22,4 +22,13 @@
     <string name="format_wind_kmh">Wind: <xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_wind_mph">Wind: <xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_sharing_weather">The weather for <xliff:g id="day">%1$1s</xliff:g> is <xliff:g id="weather">%2$s</xliff:g></string>
+    <!-- Speed direction -->
+    <string name="north">N</string>
+    <string name="south">S</string>
+    <string name="east">E</string>
+    <string name="west">W</string>
+    <string name="north_east">NE</string>
+    <string name="north_west">NW</string>
+    <string name="south_east">SE</string>
+    <string name="south_west">SW</string>
 </resources>

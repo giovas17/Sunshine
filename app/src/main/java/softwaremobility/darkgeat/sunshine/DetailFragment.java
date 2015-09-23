@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import softwaremobility.darkgeat.objects.WindSpeedControl;
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 
 /**
@@ -71,6 +72,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mHumidityView;
     private TextView mWindView;
     private TextView mPressureView;
+    private WindSpeedControl mSpeedControl;
     private Uri mUri;
 
     public DetailFragment(){
@@ -95,6 +97,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mHumidityView = (TextView) root.findViewById(R.id.detail_humidity_text);
         mWindView = (TextView) root.findViewById(R.id.detail_wind_text);
         mPressureView = (TextView) root.findViewById(R.id.detail_pressure_text);
+        mSpeedControl = (WindSpeedControl) root.findViewById(R.id.SpeedControl);
         return root;
     }
 
@@ -152,7 +155,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             int weatherId = data.getInt(data.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID));
             Glide.with(this).load(Utility.getAnimationResourceForWeatherCondition(weatherId))
-                    .asGif().centerCrop().placeholder(Utility.getArtResourceForWeatherCondition(weatherId))
+                    .asGif().fitCenter().placeholder(Utility.getArtResourceForWeatherCondition(weatherId))
                     .error(Utility.getArtResourceForWeatherCondition(weatherId)).into(mIconView);
             //mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
@@ -187,6 +190,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             float windSpeed = data.getFloat(COL_WEATHER_WIND_SPEED);
             float windDirection = data.getFloat(COL_WEATHER_DEGREES);
             String wind = Utility.getFormattedWind(getActivity(), windSpeed, windDirection);
+
+            mSpeedControl.setWindSpeedDirection(Utility.getWindDirection(windDirection));
+
             mWindView.setText(wind);
             mForecast = String.format("%s - %s/%s", weatherDescription, high, low);
             dataDay = getString(R.string.format_sharing_weather,dateString + ", " + dayMonthText,mForecast);

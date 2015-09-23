@@ -1,5 +1,6 @@
 <!-- Master layout. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -60,6 +61,12 @@
                 android:id="@+id/detail_wind_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <softwaremobility.darkgeat.objects.WindSpeedControl
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:id="@+id/SpeedControl"
+                custom:wind_direction="north"/>
         </LinearLayout>
 
         <LinearLayout
@@ -70,8 +77,11 @@
 
             <ImageView
                 android:id="@+id/detail_icon_weather"
-                android:layout_width="170dp"
-                android:layout_height="170dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="180dp"
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:id="@+id/detail_desc_text"
