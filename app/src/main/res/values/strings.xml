@@ -31,4 +31,7 @@
     <string name="north_west">NW</string>
     <string name="south_east">SE</string>
     <string name="south_west">SW</string>
+    <!-- Related to SyncAdapter -->
+    <string name="account_type">sunshine.com</string>
+    <string name="content_authority">softwaremobility.darkgeat.sunshine.app</string>
 </resources>
