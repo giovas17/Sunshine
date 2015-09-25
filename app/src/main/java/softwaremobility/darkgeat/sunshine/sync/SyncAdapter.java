@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
@@ -32,6 +33,7 @@ import java.util.Vector;
 import softwaremobility.darkgeat.sunshine.R;
 import softwaremobility.darkgeat.sunshine.Utility;
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
+import softwaremobility.darkgeat.sunshine.services.SunshineSyncService;
 
 /**
  * Created by darkgeat on 9/24/15.
@@ -39,6 +41,9 @@ import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private static final int hours = 3;
+    private static final int SYNC_INTERVAL = hours * 60; // 3 hours
+    private static final int SYNC_FLEXTIME = SYNC_INTERVAL / hours;
     private Context context;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -49,6 +54,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
+        this.context = context;
     }
 
     @Override
@@ -155,8 +161,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             if(!accountManager.addAccountExplicitly(newAccount,"",null)){
                 return null;
             }
+            onAccountCreated(newAccount, context);
         }
         return newAccount;
+    }
+
+    private static void onAccountCreated(Account newAccount, Context context) {
+        SyncAdapter.configurePeriodicSync(context,SYNC_INTERVAL,SYNC_FLEXTIME);
+        ContentResolver.setSyncAutomatically(newAccount,context.getString(R.string.content_authority),true);
+        syncImmediately(context);
+    }
+
+    public static void initializeSyncAdapter(Context context){
+        getSyncAccount(context);
     }
 
     /**
@@ -353,5 +370,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         locationCursor.close();
         // Wait, that worked?  Yes!
         return locationId;
+    }
+
+    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime){
+        Account account = getSyncAccount(context);
+        String authority = context.getString(R.string.content_authority);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            SyncRequest request = new SyncRequest.Builder().
+                    syncPeriodic(syncInterval,flexTime).
+                    setSyncAdapter(account,authority).
+                    setExtras(new Bundle()).build();
+            ContentResolver.requestSync(request);
+        }
     }
 }

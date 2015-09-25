@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
+
 
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
 
@@ -31,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         }else {
             mTwoPane = false;
         }
-
+        SyncAdapter.initializeSyncAdapter(this);
     }
 
 
