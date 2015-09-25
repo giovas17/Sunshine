@@ -1,9 +1,5 @@
 package softwaremobility.darkgeat.sunshine;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -19,14 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
-import softwaremobility.darkgeat.sunshine.services.SunshineService;
 import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 
 
