@@ -1,9 +1,5 @@
 package softwaremobility.darkgeat.sunshine;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -19,14 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
-import softwaremobility.darkgeat.sunshine.services.SunshineService;
+import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 
 
 /**
@@ -148,11 +143,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateData() {
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        /*AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intentAlarm = new Intent(getActivity(),SunshineService.AlarmReceiver.class);
         intentAlarm.putExtra(SunshineService.locationExtraKey,Utility.getPreffrerredLocation(getActivity()));
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(),0,intentAlarm,PendingIntent.FLAG_ONE_SHOT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, alarmIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, alarmIntent);*/
+        SyncAdapter.syncImmediately(getActivity());
     }
 
     void onLocationChanged(){

@@ -1,13 +1,19 @@
-package softwaremobility.darkgeat.sunshine.services;
+package softwaremobility.darkgeat.sunshine.sync;
 
-import android.app.IntentService;
-import android.content.BroadcastReceiver;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.annotation.TargetApi;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -23,25 +29,33 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
 
+import softwaremobility.darkgeat.sunshine.R;
+import softwaremobility.darkgeat.sunshine.Utility;
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 
 /**
- * Created by darkgeat on 9/23/15.
+ * Created by darkgeat on 9/24/15.
  */
-public class SunshineService extends IntentService {
+public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private final String LOG_TAG = SunshineService.class.getSimpleName();
-    public static final String locationExtraKey = "zipcode";
-    private static final int REQUESTCODE = 17;
+    private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private Context context;
 
+    public SyncAdapter(Context context, boolean autoInitialize) {
+        super(context, autoInitialize);
+        this.context = context;
+    }
 
-    public SunshineService(){super("Sunshine");}
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+        super(context, autoInitialize, allowParallelSyncs);
+    }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        // If there's no zip code, there's nothing to look up.  Verify size of params.
-        final int seconds = 5;
-        String zipcode = intent.getStringExtra(locationExtraKey);
+    public void onPerformSync(Account account, Bundle extras, String authority,
+                              ContentProviderClient provider, SyncResult syncResult) {
+        Log.d(LOG_TAG, "onPerformSync called.");
+        String zipcode = Utility.getPreffrerredLocation(context);
 
         if (zipcode.length() > 0) {
 
@@ -125,6 +139,24 @@ public class SunshineService extends IntentService {
                 }
             }
         }
+    }
+
+    public static void syncImmediately(Context context){
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(getSyncAccount(context), context.getString(R.string.content_authority), bundle);
+    }
+
+    private static Account getSyncAccount(Context context) {
+        AccountManager accountManager = (AccountManager)context.getSystemService(Context.ACCOUNT_SERVICE);
+        Account newAccount = new Account(context.getString(R.string.app_name),context.getString(R.string.account_type));
+        if(null == accountManager.getPassword(newAccount)){
+            if(!accountManager.addAccountExplicitly(newAccount,"",null)){
+                return null;
+            }
+        }
+        return newAccount;
     }
 
     /**
@@ -262,10 +294,10 @@ public class SunshineService extends IntentService {
             if ( cVVector.size() > 0 ) {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-                inserted = this.getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI, cvArray);
+                inserted = context.getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI, cvArray);
             }
 
-            Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
+            Log.d(LOG_TAG, "FetchWeatherUpdate Complete. " + inserted + " Inserted");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -286,7 +318,7 @@ public class SunshineService extends IntentService {
         long locationId;
 
         // First, check if the location with this city name exists in the db
-        Cursor locationCursor = this.getContentResolver().query(
+        Cursor locationCursor = context.getContentResolver().query(
                 WeatherContract.LocationEntry.CONTENT_URI,
                 new String[]{WeatherContract.LocationEntry._ID},
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
@@ -309,7 +341,7 @@ public class SunshineService extends IntentService {
             locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
 
             // Finally, insert location data into the database.
-            Uri insertedUri = this.getContentResolver().insert(
+            Uri insertedUri = context.getContentResolver().insert(
                     WeatherContract.LocationEntry.CONTENT_URI,
                     locationValues
             );
@@ -321,16 +353,5 @@ public class SunshineService extends IntentService {
         locationCursor.close();
         // Wait, that worked?  Yes!
         return locationId;
-    }
-
-    public static class AlarmReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String location = intent.getStringExtra(locationExtraKey);
-            Intent intentRefresh = new Intent(context, SunshineService.class);
-            intentRefresh.putExtra(SunshineService.locationExtraKey,location);
-            context.startService(intentRefresh);
-        }
     }
 }

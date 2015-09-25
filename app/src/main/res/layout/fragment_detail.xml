@@ -79,25 +79,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/detail_humidity_text"
-            android:textSize="22sp"
-            android:layout_marginTop="4dp" />
+            android:id="@+id/detail_humidity_text" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/detail_pressure_text"
-            android:textSize="22sp"
-            android:layout_marginTop="4dp" />
+            android:id="@+id/detail_pressure_text" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/detail_wind_text"
-            android:textSize="22sp"
-            android:layout_marginTop="4dp" />
+            android:id="@+id/detail_wind_text" />
 
         <softwaremobility.darkgeat.objects.WindSpeedControl
             android:layout_width="wrap_content"
