@@ -56,14 +56,14 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             Intent intent = new Intent(this,SettingsActivity.class);
             startActivity(intent);
             return true;
-        }else if(id == R.id.action_map){
+        }/*else if(id == R.id.action_map){
             openPreferredLocationInMap();
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPreferredLocationInMap() {
+    /*private void openPreferredLocationInMap() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String location = preferences.getString(getString(R.string.pref_location_key), getString(R.string.default_id_location));
         Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geoLocation);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     protected void onResume() {
