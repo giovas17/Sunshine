@@ -5,6 +5,7 @@
         android:key="@string/pref_location_key"
         android:title="@string/pref_location"
         android:defaultValue="@string/default_id_location"
+        android:contentDescription="Zip Code"
         android:selectAllOnFocus="true"
         android:inputType="textCapWords"
         android:capitalize="words"
@@ -17,5 +18,12 @@
         android:defaultValue="@string/pref_units_metric"
         android:entries="@array/pref_units_options"
         android:entryValues="@array/pref_units_values"/>
+
+    <CheckBoxPreference
+        android:key="@string/pref_notification_key"
+        android:title="@string/pref_notification"
+        android:summaryOn="@string/pref_notification_true"
+        android:summaryOff="@string/pref_notification_false"
+        android:defaultValue="@string/pref_notification_default"/>
 
 </PreferenceScreen>
