@@ -37,7 +37,6 @@
             android:name=".data.WeatherProvider"
             android:exported="false"
             android:syncable="true"/>
-        <receiver android:name=".services.SunshineService$AlarmReceiver"/>
         <service android:name=".services.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>

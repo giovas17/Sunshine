@@ -5,8 +5,9 @@
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_location">Location</string>
+    <string name="pref_location">Location (Zip Code)</string>
     <string name="pref_location_key">location</string>
+    <string name="pref_location_desc">Zip Code</string>
     <string name="default_id_location">94043</string>
     <string name="pref_units_label">Temperature Units</string>
     <string name="pref_units_metric">Metric</string>
@@ -20,5 +21,10 @@
         <item>Metric</item>
         <item>Imperial</item>
     </string-array>
+    <string name="pref_notification">Weather Notifications</string>
+    <string name="pref_notification_key">notification</string>
+    <string name="pref_notification_true">Enabled</string>
+    <string name="pref_notification_false">Not Enabled</string>
+    <string name="pref_notification_default">true</string>
 
 </resources>

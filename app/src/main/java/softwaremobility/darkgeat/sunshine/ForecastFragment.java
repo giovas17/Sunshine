@@ -1,7 +1,10 @@
 package softwaremobility.darkgeat.sunshine;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -30,6 +33,7 @@ import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int FORECAST_LOADER_ID = 0;
+    private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private static final String SELECTED_KEY = "selection";
     private ForeCastAdapter mForecastAdapter;
     private int mPosition;
@@ -129,9 +133,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if(id == R.id.action_refresh){
             updateData();
             return true;
-        }else{
-            return false;
+        }else if(id == R.id.action_map){
+            openPreferredLocationInMap();
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -140,6 +145,29 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             outState.putInt(SELECTED_KEY,mPosition);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    private void openPreferredLocationInMap() {
+
+        if ( null != mForecastAdapter ) {
+            Cursor c = mForecastAdapter.getCursor();
+            if ( null != c ) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String posLong = c.getString(COL_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                }
+            }
+
+        }
     }
 
     private void updateData() {
