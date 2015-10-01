@@ -99,6 +99,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         //controller.setOrder(LayoutAnimationController.ORDER_REVERSE);
         list.setLayoutAnimation(controller);
         list.setAdapter(mForecastAdapter);
+        View empty = v.findViewById(R.id.emptyDataResponse);
+        list.setEmptyView(empty);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
