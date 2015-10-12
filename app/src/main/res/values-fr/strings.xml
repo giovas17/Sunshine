@@ -15,6 +15,13 @@
     <string name="format_wind_kmh">Vent: <xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_wind_mph">Vent: <xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_sharing_weather">Le climat pour <xliff:g id="day">%1$1s</xliff:g> est <xliff:g id="weather">%2$s</xliff:g></string>
+    <!-- Weather Description -->
+    <string name="clear">Clair</string>
+    <string name="fog">Brouillard</string>
+    <string name="clouds">Nuages</string>
+    <string name="rain">Pluie</string>
+    <string name="snow">Neige</string>
+    <string name="storm">Orage</string>
     <!-- Speed direction -->
     <string name="north">N</string>
     <string name="south">S</string>
