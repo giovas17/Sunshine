@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import softwaremobility.darkgeat.objects.WindSpeedControl;
+import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
+
+import static softwaremobility.darkgeat.sunshine.sync.SyncAdapter.LOCATION_STATUS_UNKNOWN;
 
 /**
  * Created by darkgeat on 1/07/15.
@@ -324,9 +327,16 @@ public class Utility {
         return day + month + aux;
     }
 
+
     public static boolean isNetworkAvailable(Context context){
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnectedOrConnecting();
+    }
+
+    @SuppressWarnings("ResourceType")
+    public static @SyncAdapter.LocationStatus int getLocationStatus(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt(context.getString(R.string.pref_loc_status), LOCATION_STATUS_UNKNOWN);
     }
 }
