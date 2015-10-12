@@ -2,6 +2,8 @@ package softwaremobility.darkgeat.sunshine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
@@ -320,5 +322,11 @@ public class Utility {
         String month = aux.substring(0,2).toUpperCase() + aux.substring(2,3);
         aux = aux.substring(3);
         return day + month + aux;
+    }
+
+    public static boolean isNetworkAvailable(Context context){
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnectedOrConnecting();
     }
 }

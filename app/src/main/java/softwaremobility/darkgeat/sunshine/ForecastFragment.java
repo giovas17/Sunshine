@@ -1,8 +1,11 @@
 package softwaremobility.darkgeat.sunshine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -22,6 +25,7 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
@@ -171,7 +175,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     void onLocationChanged(){
         updateData();
-        getLoaderManager().restartLoader(FORECAST_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
     }
 
     @Override
@@ -191,6 +195,17 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if (mPosition != ListView.INVALID_POSITION){
             list.smoothScrollToPosition(mPosition);
             Log.d("Position selected" , "Position: " + mPosition);
+        }
+        updateEmptyView();
+    }
+
+    public void updateEmptyView(){
+        if(mForecastAdapter.getCount() == 0) {
+            TextView empty = (TextView) getView().findViewById(R.id.emptyDataResponse);
+            if(null != empty){
+                int message = Utility.isNetworkAvailable(getActivity()) ? R.string.no_info : R.string.no_internet;
+                empty.setText(message);
+            }
         }
     }
 
