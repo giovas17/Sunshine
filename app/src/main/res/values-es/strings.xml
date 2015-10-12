@@ -37,4 +37,5 @@
     <string name="no_internet">No hay información del Clima disponible por que no hay una conexión de internet</string>
     <string name="empty_forecast_list_server_down">No hay información del Clima disponible. El servidor no esta activo en estos momentos.</string>
     <string name="empty_forecast_list_server_error">No hay información del Clima disponible. El servidor no esta regresando datos validos. Por favor cheque por una nueva version de Sunshine.</string>
+    <string name="empty_forecast_list_invalid_location">No hay información del Clima disponible. La ubicación ingresada no es reconocida por el servidor de Clima.</string>
 </resources>

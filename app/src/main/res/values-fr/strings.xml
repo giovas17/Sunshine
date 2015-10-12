@@ -37,4 +37,5 @@
     <string name="no_internet">Aucune information météo disponible parce qu\'il n\'y a pas de connexion Internet</string>
     <string name="empty_forecast_list_server_down">Aucune information météo disponible. Le serveur ne retourne pas de données.</string>
     <string name="empty_forecast_list_server_error">Aucune information météo disponible. Le serveur ne retourne pas de données valides . S\'il vous plaît vérifier une version mise à jour de Sunshine.</string>
+    <string name="empty_forecast_list_invalid_location">Aucune information météo disponible. L\'emplacement dans les paramètres ne sont pas reconnus par le serveur de temps.</string>
 </resources>
