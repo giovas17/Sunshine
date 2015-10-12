@@ -212,6 +212,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     case SyncAdapter.LOCATION_STATUS_SERVER_INVALID:
                         message = R.string.empty_forecast_list_server_error;
                         break;
+                    case SyncAdapter.LOCATION_STATUS_INVALID:
+                        message = R.string.empty_forecast_list_invalid_location;
+                        break;
                     default:
                         if(!Utility.isNetworkAvailable(getActivity())){
                             message = R.string.no_internet;
