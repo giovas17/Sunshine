@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ public class Utility {
 
     public static String getPreffrerredLocation(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(context.getString(R.string.pref_location_key),context.getString(R.string.default_id_location));
+        return preferences.getString(context.getString(R.string.pref_location_key), context.getString(R.string.default_id_location));
     }
 
     public static boolean isMetric(Context mContext) {
@@ -34,7 +35,7 @@ public class Utility {
         }else{
             temp = temperature;
         }
-        return mContext.getString(R.string.format_temperature,temp);
+        return mContext.getString(R.string.format_temperature, temp);
     }
 
     public static String formatDate(long dateInMillis) {
@@ -82,7 +83,7 @@ public class Utility {
         } else {
             // Otherwise, use the form "Mon Jun 3"
             SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
-            return shortenedDateFormat.format(dateInMillis);
+            return CapitalizeDate(shortenedDateFormat.format(dateInMillis));
         }
     }
 
@@ -111,7 +112,8 @@ public class Utility {
             time.setToNow();
             // Otherwise, the format is just the day of the week (e.g "Wednesday".
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
-            return dayFormat.format(dateInMillis);
+            String actualDay = CapitalizeFirstLetter(dayFormat.format(dateInMillis));
+            return actualDay;
         }
     }
 
@@ -127,7 +129,7 @@ public class Utility {
         time.setToNow();
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(Utility.DATE_FORMAT);
         SimpleDateFormat monthDayFormat = new SimpleDateFormat("MMMM dd");
-        String monthDayString = monthDayFormat.format(dateInMillis);
+        String monthDayString = CapitalizeFirstLetter(monthDayFormat.format(dateInMillis));
         return monthDayString;
     }
 
@@ -269,6 +271,23 @@ public class Utility {
         return -1;
     }
 
+    public static String getDescription(String shortDesc, Context context){
+        switch (shortDesc){
+            case "Clear":
+                return context.getString(R.string.clear);
+            case "Fog":
+                return context.getString(R.string.fog);
+            case "Rain":
+                return context.getString(R.string.rain);
+            case "Clouds":
+                return context.getString(R.string.clouds);
+            case "Storm":
+                return context.getString(R.string.storm);
+            default:
+                return context.getString(R.string.snow);
+        }
+    }
+
     public static WindSpeedControl.Direction getWindDirection(float degrees){
 
         if (degrees >= 337.5 || degrees < 22.5) {
@@ -289,5 +308,17 @@ public class Utility {
             return WindSpeedControl.Direction.NORTHWEST;
         }else
             return WindSpeedControl.Direction.NORTH;
+    }
+
+    private static String CapitalizeFirstLetter(String charSequence){
+        return (charSequence.substring(0,1).toUpperCase() + charSequence.substring(1));
+    }
+
+    private static String CapitalizeDate(String chartSquence){
+        String day = chartSquence.substring(0,1).toUpperCase() + chartSquence.substring(1,3);
+        String aux = chartSquence.substring(3);
+        String month = aux.substring(0,2).toUpperCase() + aux.substring(2,3);
+        aux = aux.substring(3);
+        return day + month + aux;
     }
 }

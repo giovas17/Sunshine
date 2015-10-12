@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="pref_header_general">Général</string>
+    <string name="pref_location">Emplacement (Codigo Postal)</string>
+    <string name="pref_location_key">location</string>
+    <string name="pref_location_desc">Codigo Postal</string>
+    <string name="default_id_location">94043</string>
+    <string name="pref_units_label">Des unités de Température</string>
+    <string name="pref_units_metric">Metric</string>
+    <string name="pref_units_imperial">Imperial</string>
+    <string name="pref_units_key">Temperature</string>
+    <string-array name="pref_units_options">
+        <item>Métrique (\u00B0C)</item>
+        <item>Impériale (\u00B0F)</item>
+    </string-array>
+    <string-array name="pref_units_values">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <string name="pref_notification">Notifications Météorologiques</string>
+    <string name="pref_notification_key">notification</string>
+    <string name="pref_notification_true">Permettre</string>
+    <string name="pref_notification_false">Handicapés</string>
+    <string name="pref_notification_default">true</string>
+</resources>

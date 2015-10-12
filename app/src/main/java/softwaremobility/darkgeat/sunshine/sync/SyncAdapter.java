@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Vector;
 
 import softwaremobility.darkgeat.sunshine.MainActivity;
@@ -100,6 +101,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             String format = "json";
             String units = "metric";
             int numDays = 14;
+            String localLanguageDevice = Locale.getDefault().getLanguage();
 
             try {
                 // Construct the URL for the OpenWeatherMap query
@@ -111,12 +113,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
                 final String DAYS_PARAM = "cnt";
+                final String LANGUAGE_PARAM = "lang";
+                final String APIKEY = "APPID";
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                         .appendQueryParameter(QUERY_PARAM, locationQuery)
                         .appendQueryParameter(FORMAT_PARAM, format)
                         .appendQueryParameter(UNITS_PARAM, units)
+                        .appendQueryParameter(LANGUAGE_PARAM, localLanguageDevice)
                         .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                        .appendQueryParameter(APIKEY,context.getString(R.string.api_key))
                         .build();
 
                 URL url = new URL(builtUri.toString());
@@ -238,7 +244,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final String OWM_MIN = "min";
 
         final String OWM_WEATHER = "weather";
-        final String OWM_DESCRIPTION = "main";
+        final String OWM_MAIN = "main";
+        final String OWM_DESCRIPTION = "description";
         final String OWM_WEATHER_ID = "id";
 
         try {
@@ -303,7 +310,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 // That element also contains a weather code.
                 JSONObject weatherObject =
                         dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
-                description = weatherObject.getString(OWM_DESCRIPTION);
+                description = weatherObject.getString(OWM_MAIN);
+                description = Utility.getDescription(description, context);
                 weatherId = weatherObject.getInt(OWM_WEATHER_ID);
 
                 // Temperatures are in a child object called "temp".  Try not to name variables

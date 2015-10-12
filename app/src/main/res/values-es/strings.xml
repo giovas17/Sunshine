@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">Sunshine</string>
+    <string name="action_settings">Configuración</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="action_map">Ubicación en Mapa</string>
+    <string name="action_share">Compartir</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) [CHAR LIMIT=20] -->
+    <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g>, \n<xliff:g id="date">%2$s</xliff:g></string>
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="format_humidity">Humedad: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_pressure">Presión: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_wind_kmh">Viento: <xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_mph">Viento: <xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_sharing_weather">El Clima para <xliff:g id="day">%1$1s</xliff:g> es <xliff:g id="weather">%2$s</xliff:g></string>
+    <!-- Weather Description -->
+    <string name="clear">Despejado</string>
+    <string name="fog">Neblina</string>
+    <string name="clouds">Nublado</string>
+    <string name="rain">Lluvioso</string>
+    <string name="snow">Nieve</string>
+    <string name="storm">Tormenta</string>
+    <!-- Speed direction -->
+    <string name="north">N</string>
+    <string name="south">S</string>
+    <string name="east">E</string>
+    <string name="west">O</string>
+    <string name="north_east">NE</string>
+    <string name="north_west">NO</string>
+    <string name="south_east">SE</string>
+    <string name="south_west">SO</string>
+    <!-- Related to SyncAdapter -->
+    <string name="account_type">sunshine.com</string>
+    <string name="content_authority">softwaremobility.darkgeat.sunshine.app</string>
+    <!-- Related to Notifications -->
+    <string name="format_notification">Pronóstico: <xliff:g id="condition">%1$s</xliff:g> Alta: <xliff:g id="high">%2$s</xliff:g> Baja: <xliff:g id="low">%3$s</xliff:g></string>
+    <string name="pref_last_notification">last_notification</string>
+    <string name="no_info">No hay información del Clima disponible</string>
+</resources>

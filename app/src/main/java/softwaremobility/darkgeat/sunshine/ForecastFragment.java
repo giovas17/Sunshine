@@ -99,6 +99,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         //controller.setOrder(LayoutAnimationController.ORDER_REVERSE);
         list.setLayoutAnimation(controller);
         list.setAdapter(mForecastAdapter);
+        View empty = v.findViewById(R.id.emptyDataResponse);
+        list.setEmptyView(empty);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -148,26 +150,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void openPreferredLocationInMap() {
-
-        if ( null != mForecastAdapter ) {
-            Cursor c = mForecastAdapter.getCursor();
-            if ( null != c ) {
-                c.moveToPosition(0);
-                String posLat = c.getString(COL_COORD_LAT);
-                String posLong = c.getString(COL_COORD_LONG);
-                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(geoLocation);
-
-                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
-                }
-            }
-
-        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = preferences.getString(getString(R.string.pref_location_key), getString(R.string.default_id_location));
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q",location)
+                .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        startActivity(intent);
     }
 
     private void updateData() {
