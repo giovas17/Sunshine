@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
@@ -34,13 +40,18 @@ import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener{
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener, SensorEventListener{
 
     private static final int FORECAST_LOADER_ID = 0;
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private static final String SELECTED_KEY = "selection";
     private ForeCastAdapter mForecastAdapter;
+    private SensorManager sensorManager;
+    private float mAccel; // acceleration apart from gravity
+    private float mAccelCurrent; // current acceleration including gravity
+    private float mAccelLast; // last acceleration including gravity
     private int mPosition;
+    protected int gesturesCount = 0;
     private ListView list;
 
     private static final String[] FORECAST_COLUMNS = {
@@ -80,6 +91,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        sensorManager = (SensorManager)getActivity().getSystemService(((AppCompatActivity)getActivity()).SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
     }
 
     @Override
@@ -242,6 +258,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onResume() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         super.onResume();
     }
 
@@ -249,7 +266,38 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onPause() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        sensorManager.unregisterListener(this);
+        gesturesCount = 0;
         super.onPause();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+        mAccelLast = mAccelCurrent;
+        mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+        float delta = mAccelCurrent - mAccelLast;
+        mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+        gesturesCount++;
+        if(mAccel > 10 && gesturesCount > 4){
+            Log.d("SensorTest", "The device is shaken");
+            sensorManager.unregisterListener(this);
+            updateData();
+            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
+            animation.setDuration(500);
+            LayoutAnimationController controller = new LayoutAnimationController(animation,0.9f);
+            list.setLayoutAnimation(controller);
+            mForecastAdapter.notifyDataSetChanged();
+            sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+            gesturesCount = 0;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        Log.d("SensorTest","accuracy: " + accuracy);
     }
 
     public interface Callback{
