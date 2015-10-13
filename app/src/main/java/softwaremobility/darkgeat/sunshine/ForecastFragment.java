@@ -11,6 +11,8 @@ import android.hardware.SensorManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -91,7 +93,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        sensorManager = (SensorManager)getActivity().getSystemService(((AppCompatActivity)getActivity()).SENSOR_SERVICE);
+        sensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
@@ -292,6 +294,20 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mForecastAdapter.notifyDataSetChanged();
             sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
             gesturesCount = 0;
+            VibrateDevice();
+        }
+    }
+
+    private void VibrateDevice() {
+        Vibrator vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if(vibrator.hasVibrator()){
+                // Start without a delay
+                // Each element then alternates between vibrate, sleep, vibrate, sleep...
+                long[] pattern = {0,300,100,300,100,300};
+                // The '-1' here means to vibrate once, as '-1' is out of bounds in the pattern array
+                vibrator.vibrate(pattern,-1);
+            }
         }
     }
 
