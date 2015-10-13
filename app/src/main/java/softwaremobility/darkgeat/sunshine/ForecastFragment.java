@@ -1,8 +1,11 @@
 package softwaremobility.darkgeat.sunshine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -22,6 +25,7 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
@@ -30,7 +34,7 @@ import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final int FORECAST_LOADER_ID = 0;
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
@@ -171,7 +175,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     void onLocationChanged(){
         updateData();
-        getLoaderManager().restartLoader(FORECAST_LOADER_ID,null,this);
+        getLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
     }
 
     @Override
@@ -192,11 +196,60 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             list.smoothScrollToPosition(mPosition);
             Log.d("Position selected" , "Position: " + mPosition);
         }
+        updateEmptyView();
+    }
+
+    public void updateEmptyView(){
+        if(mForecastAdapter.getCount() == 0) {
+            TextView empty = (TextView) getView().findViewById(R.id.emptyDataResponse);
+            if(null != empty){
+                int message = R.string.no_info;
+                @SyncAdapter.LocationStatus int location = Utility.getLocationStatus(getActivity());
+                switch (location){
+                    case SyncAdapter.LOCATION_STATUS_SERVER_DOWN:
+                        message = R.string.empty_forecast_list_server_down;
+                        break;
+                    case SyncAdapter.LOCATION_STATUS_SERVER_INVALID:
+                        message = R.string.empty_forecast_list_server_error;
+                        break;
+                    case SyncAdapter.LOCATION_STATUS_INVALID:
+                        message = R.string.empty_forecast_list_invalid_location;
+                        break;
+                    default:
+                        if(!Utility.isNetworkAvailable(getActivity())){
+                            message = R.string.no_internet;
+                            break;
+                        }
+                }
+                empty.setText(message);
+            }
+        }
     }
 
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.pref_loc_status))){
+            updateEmptyView();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     public interface Callback{

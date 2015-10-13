@@ -2,6 +2,8 @@ package softwaremobility.darkgeat.sunshine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
@@ -11,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import softwaremobility.darkgeat.objects.WindSpeedControl;
+import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
+
+import static softwaremobility.darkgeat.sunshine.sync.SyncAdapter.LOCATION_STATUS_UNKNOWN;
 
 /**
  * Created by darkgeat on 1/07/15.
@@ -320,5 +325,25 @@ public class Utility {
         String month = aux.substring(0,2).toUpperCase() + aux.substring(2,3);
         aux = aux.substring(3);
         return day + month + aux;
+    }
+
+
+    public static boolean isNetworkAvailable(Context context){
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnectedOrConnecting();
+    }
+
+    @SuppressWarnings("ResourceType")
+    public static @SyncAdapter.LocationStatus int getLocationStatus(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt(context.getString(R.string.pref_loc_status), LOCATION_STATUS_UNKNOWN);
+    }
+
+    public static void resetLocationStatus(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(context.getString(R.string.pref_loc_status),LOCATION_STATUS_UNKNOWN);
+        editor.apply();
     }
 }
