@@ -12,4 +12,7 @@
             <enum name="southEast" value="135"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="LocationEditTextPreference">
+        <attr name="min_length" format="integer"/>
+    </declare-styleable>
 </resources>

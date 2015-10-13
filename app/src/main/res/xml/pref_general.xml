@@ -1,7 +1,8 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/softwaremobility.darkgeat.sunshine">
 
 
-    <EditTextPreference
+    <softwaremobility.darkgeat.objects.LocationEditTextPreference
         android:key="@string/pref_location_key"
         android:title="@string/pref_location"
         android:defaultValue="@string/default_id_location"
@@ -10,7 +11,8 @@
         android:inputType="textCapWords"
         android:capitalize="words"
         android:singleLine="true"
-        android:maxLines="1" />
+        android:maxLines="1"
+        custom:min_length="5"/>
 
     <ListPreference
         android:key="@string/pref_units_key"
