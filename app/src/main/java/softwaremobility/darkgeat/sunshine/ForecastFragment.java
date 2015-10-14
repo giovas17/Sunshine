@@ -284,7 +284,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mAccel = mAccel * 0.9f + delta; // perform low-cut filter
         gesturesCount++;
         if(mAccel > 10 && gesturesCount > 4){
-            Log.d("SensorTest", "The device is shaken");
+            Log.d(LOG_TAG, "The device is shaken");
             sensorManager.unregisterListener(this);
             updateData();
             Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);

@@ -14,14 +14,15 @@
         <item>Metrico (\u00B0C)</item>
         <item>Imperial (\u00B0F)</item>
     </string-array>
-    <string-array name="pref_units_values">
-        <item>Metric</item>
-        <item>Imperial</item>
-    </string-array>
     <string name="pref_notification">Notificaciones de Clima</string>
     <string name="pref_notification_key">notification</string>
     <string name="pref_notification_true">Habilitado</string>
     <string name="pref_notification_false">No Habilitado</string>
     <string name="pref_notification_default">true</string>
     <string name="pref_location_error_description">Código Postal invalido (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+    <string-array name="pref_icon_options">
+        <item>Iconos Animados</item>
+        <item>Iconos Sunshine</item>
+        <item>Iconos Externos</item>
+    </string-array>
 </resources>

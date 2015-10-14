@@ -7,10 +7,14 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import softwaremobility.darkgeat.objects.WindSpeedControl;
 import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
@@ -248,6 +252,7 @@ public class Utility {
      * @return resource id for the corresponding icon. -1 if no relation is found.
      */
     public static int getArtResourceForWeatherCondition(int weatherId) {
+
         // Based on weather code data found at:
         // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
         if (weatherId >= 200 && weatherId <= 232) {
@@ -274,6 +279,54 @@ public class Utility {
             return R.drawable.art_clouds;
         }
         return -1;
+    }
+
+    public static void loadImageFromIconPack(int weatherId, Context context, ImageView imageView){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String iconPackSelected = preferences.getString(context.getString(R.string.pref_icon_pack_key),context.getString(R.string.pref_icon_pack_default_value));
+        boolean defaultPack = iconPackSelected.equals(context.getString(R.string.pref_icon_pack_default_value));
+        if (defaultPack){
+            Glide.with(context).load(Utility.getAnimationResourceForWeatherCondition(weatherId))
+                    .asGif().fitCenter().placeholder(getArtResourceForWeatherCondition(weatherId))
+                    .error(getArtResourceForWeatherCondition(weatherId)).into(imageView);
+        }else{
+            Glide.with(context).load(getArtUrlForWeatherCondition(context,weatherId))
+                    .fitCenter().placeholder(getArtResourceForWeatherCondition(weatherId))
+                    .error(getArtResourceForWeatherCondition(weatherId)).into(imageView);
+        }
+    }
+
+    public static String getArtUrlForWeatherCondition(Context context, int weatherId) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String formatArtUrl = prefs.getString(context.getString(R.string.pref_icon_pack_key),
+                context.getString(R.string.pref_art_pack_sunshine));
+
+        // Based on weather code data found at:
+        // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+        if (weatherId >= 200 && weatherId <= 232) {
+            return String.format(Locale.US, formatArtUrl, "storm");
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            return String.format(Locale.US, formatArtUrl, "light_rain");
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            return String.format(Locale.US, formatArtUrl, "rain");
+        } else if (weatherId == 511) {
+            return String.format(Locale.US, formatArtUrl, "snow");
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            return String.format(Locale.US, formatArtUrl, "rain");
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            return String.format(Locale.US, formatArtUrl, "snow");
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            return String.format(Locale.US, formatArtUrl, "fog");
+        } else if (weatherId == 761 || weatherId == 781) {
+            return String.format(Locale.US, formatArtUrl, "storm");
+        } else if (weatherId == 800) {
+            return String.format(Locale.US, formatArtUrl, "clear");
+        } else if (weatherId == 801) {
+            return String.format(Locale.US, formatArtUrl, "light_clouds");
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            return String.format(Locale.US, formatArtUrl, "clouds");
+        }
+        return null;
     }
 
     public static String getDescription(String shortDesc, Context context){

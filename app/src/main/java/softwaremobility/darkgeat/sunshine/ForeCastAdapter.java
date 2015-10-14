@@ -56,7 +56,8 @@ public class ForeCastAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
         switch (viewType){
             case VIEW_TYPE_TODAY:{
-                Glide.with(context).load(Utility.getAnimationResourceForWeatherCondition(
+                Utility.loadImageFromIconPack(cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID),context,viewHolder.iconWeather);
+                /*Glide.with(context).load(Utility.getAnimationResourceForWeatherCondition(
                         cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)))
                         .asGif()
                         .placeholder(Utility.getArtResourceForWeatherCondition(
@@ -64,7 +65,7 @@ public class ForeCastAdapter extends CursorAdapter {
                         .error(Utility.getArtResourceForWeatherCondition(
                                 cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)))
                         .fitCenter()
-                        .into(viewHolder.iconWeather);
+                        .into(viewHolder.iconWeather);*/
                 //viewHolder.iconWeather.setImageResource(Utility.getArtResourceForWeatherCondition(
                 //        cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
                 break;

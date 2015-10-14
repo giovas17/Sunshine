@@ -5,7 +5,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_map">Location on Map</string>
     <string name="action_share">Share</string>
-    <string name="api_key" transladable="false">8aabee841cffd35feb4de1776e01132c</string>
+    <string name="api_key" translatable="false">8aabee841cffd35feb4de1776e01132c</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) [CHAR LIMIT=20] -->
@@ -33,8 +33,8 @@
     <string name="south_east">SE</string>
     <string name="south_west">SW</string>
     <!-- Related to SyncAdapter -->
-    <string name="account_type" transladable="false">sunshine.com</string>
-    <string name="content_authority" transladable="false">softwaremobility.darkgeat.sunshine.app</string>
+    <string name="account_type" translatable="false">sunshine.com</string>
+    <string name="content_authority" translatable="false">softwaremobility.darkgeat.sunshine.app</string>
     <!-- Related to Notifications -->
     <string name="format_notification">Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g></string>
     <string name="no_info">No weather information available</string>
