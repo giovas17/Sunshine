@@ -20,8 +20,8 @@ import softwaremobility.darkgeat.sunshine.R;
  */
 public class WindSpeedControl extends View{
 
-    private int width = 150;
-    private int height = 150;
+    private int width = 200;
+    private int height = 200;
     private int direction = Direction.NORTH.value;
     private int x, y;
     private float textSize = 19f;

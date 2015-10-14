@@ -31,16 +31,16 @@
     <string-array name="pref_icon_options">
         <item>Animated Icons</item>
         <item>Sunshine Icons</item>
-        <item>External Icons</item>
+        <item>Minimal Colored Icons</item>
+        <item>Minimal Monochromatic Icons</item>
     </string-array>
     <string-array name="pref_icon_values" translatable="false">
         <item>@string/pref_icon_pack_default_value</item>
         <item>@string/pref_art_pack_sunshine</item>
-        <item>@string/pref_art_pack_cute_dogs</item>
+        <item>@string/pref_art_pack_colored</item>
+        <item>@string/pref_art_pack_mono</item>
     </string-array>
-    <!-- Value in SharedPreferences for Sunshine art pack option [CHAR LIMIT=NONE] -->
-    <string name="pref_art_pack_sunshine" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/master/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
-
-    <!-- Value in SharedPreferences for cute dogs art pack  option [CHAR LIMIT=NONE] -->
-    <string name="pref_art_pack_cute_dogs" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-mdpi/art_%s.png</string>
+    <string name="pref_art_pack_sunshine" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/content_provider/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
+    <string name="pref_art_pack_colored" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/iconPacks_resource/app/src/main/res/drawable/Colored/art_%s.png</string>
+    <string name="pref_art_pack_mono" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/iconPacks_resource/app/src/main/res/drawable/Mono/art_%s.png</string>
 </resources>

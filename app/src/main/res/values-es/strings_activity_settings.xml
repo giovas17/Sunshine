@@ -23,6 +23,7 @@
     <string-array name="pref_icon_options">
         <item>Iconos Animados</item>
         <item>Iconos Sunshine</item>
-        <item>Iconos Externos</item>
+        <item>Iconos Minimal a Color</item>
+        <item>Iconos Minimal Monochromático</item>
     </string-array>
 </resources>
