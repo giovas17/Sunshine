@@ -42,4 +42,7 @@
     <string name="empty_forecast_list_server_down">No weather information available. The server is not returning data.</string>
     <string name="empty_forecast_list_server_error">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
     <string name="empty_forecast_list_invalid_location">No weather information available. The location in settings is not recognized by the weather server.</string>
+    <!-- About GCM -->
+    <string name="projectIdNumber" translatable="false">1048103592468</string>
+    <string name="api_key_cloud">AIzaSyD_nNaPDP-dsV2B_tj8Sf81a9cMoXDzGNg</string>
 </resources>

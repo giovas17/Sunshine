@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -54,6 +59,16 @@
             <meta-data android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync_adapter"/>
         </service>
+
+        <!-- GCM receiver - Commented out until we write the class -->
+        <receiver
+            android:name=".receivers.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="softwaremobility.darkgeat.sunshine" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <permission android:name="softwaremobility.darkgeat.LICENCE_TO_KILL"
