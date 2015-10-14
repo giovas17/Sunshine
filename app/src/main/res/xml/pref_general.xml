@@ -28,4 +28,11 @@
         android:summaryOff="@string/pref_notification_false"
         android:defaultValue="@string/pref_notification_default"/>
 
+    <ListPreference
+        android:key="@string/pref_icon_pack_key"
+        android:title="@string/pref_icon_pack"
+        android:defaultValue="@string/pref_icon_pack_default_value"
+        android:entries="@array/pref_icon_options"
+        android:entryValues="@array/pref_icon_values"/>
+
 </PreferenceScreen>

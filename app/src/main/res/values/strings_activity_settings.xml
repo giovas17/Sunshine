@@ -2,7 +2,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="pref_header_general">General</string>
     <string name="pref_location">Location (Zip Code)</string>
-    <string name="pref_location_key">location</string>
+    <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_desc">Zip Code</string>
     <string name="default_id_location">94043</string>
     <string name="pref_units_label">Temperature Units</string>
@@ -18,11 +18,29 @@
         <item>Imperial</item>
     </string-array>
     <string name="pref_notification">Weather Notifications</string>
-    <string name="pref_notification_key">notification</string>
+    <string name="pref_notification_key" translatable="false">notification</string>
     <string name="pref_notification_true">Enabled</string>
     <string name="pref_notification_false">Not Enabled</string>
     <string name="pref_notification_default">true</string>
-    <string name="pref_last_notification" transladable="false">last_notification</string>
-    <string name="pref_loc_status" transladable="false">loc_status</string>
+    <string name="pref_last_notification" translatable="false">last_notification</string>
+    <string name="pref_loc_status" translatable="false">loc_status</string>
     <string name="pref_location_error_description">Invalid Zip Code (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+    <string name="pref_icon_pack_key" translatable="false">icon_pack</string>
+    <string name="pref_icon_pack" translatable="false">Icons Pack</string>
+    <string name="pref_icon_pack_default_value" translatable="false">animated</string>
+    <string-array name="pref_icon_options">
+        <item>Animated Icons</item>
+        <item>Sunshine Icons</item>
+        <item>Minimal Colored Icons</item>
+        <item>Minimal Monochromatic Icons</item>
+    </string-array>
+    <string-array name="pref_icon_values" translatable="false">
+        <item>@string/pref_icon_pack_default_value</item>
+        <item>@string/pref_art_pack_sunshine</item>
+        <item>@string/pref_art_pack_colored</item>
+        <item>@string/pref_art_pack_mono</item>
+    </string-array>
+    <string name="pref_art_pack_sunshine" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/content_provider/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
+    <string name="pref_art_pack_colored" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/iconPacks_resource/app/src/main/res/drawable/Colored/art_%s.png</string>
+    <string name="pref_art_pack_mono" translatable="false">https://raw.githubusercontent.com/giovas17/Sunshine/feature/iconPacks_resource/app/src/main/res/drawable/Mono/art_%s.png</string>
 </resources>
