@@ -8,11 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE" />
-
 
     <application
         android:allowBackup="true"

@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             mGcm = GoogleCloudMessaging.getInstance(this);
             String regId = getRegistrationId(this);
 
-            if (SENDER_ID.equals(getString(R.string.projectIdNumber))) {
+            if (!SENDER_ID.equals(getString(R.string.projectIdNumber))) {
                 new AlertDialog.Builder(this)
                         .setTitle("Needs Sender ID")
                         .setMessage("GCM will not function in Sunshine until you replace your Sender ID with a Sender ID from the Google Developers Console.")
