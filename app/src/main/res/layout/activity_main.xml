@@ -1,8 +1,28 @@
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/IdForecastFragment"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
-    tools:layout="@android:layout/list_content"/>
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_logo"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <fragment
+        android:id="@+id/IdForecastFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
+        tools:layout="@android:layout/list_content"/>
+
+</RelativeLayout>
+

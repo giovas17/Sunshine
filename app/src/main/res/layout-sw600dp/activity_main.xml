@@ -1,22 +1,43 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="?android:attr/dividerHorizontal"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <fragment
-        android:layout_width="0dp"
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_logo"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/IdForecastFragment"
-        android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
-        android:layout_weight="3"
-        tools:layout="@android:layout/list_content"/>
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:id="@+id/detail_container"/>
+        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal">
+
+        <fragment
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/IdForecastFragment"
+            android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
+            android:layout_weight="3"
+            tools:layout="@android:layout/list_content"/>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:id="@+id/detail_container"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
