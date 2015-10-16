@@ -1,102 +1,93 @@
 <!-- Master layout. -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <include layout="@layout/grid_today_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/detail_accent_pane_background"
+        app:columnCount="3">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="24sp"
-            android:id="@+id/detail_day_text" />
+            app:layout_columnWeight="1"
+            app:layout_gravity="center_vertical"
+            app:layout_rowWeight="1"
+            android:textColor="@color/detail_accent_label"
+            android:layout_marginLeft="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:text="@string/humidity" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/detail_month_text"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="96sp"
-                    android:id="@+id/detail_max_temp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="48sp"
-                    android:id="@+id/detail_min_temp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:maxWidth="140dp"
-                    android:maxHeight="140dp"
-                    android:id="@+id/detail_icon_weather" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/detail_desc_text"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="22sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center_vertical"
+            app:layout_rowWeight="1"
+            android:textColor="@android:color/white"
             android:id="@+id/detail_humidity_text" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/detail_pressure_text" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/detail_wind_text" />
 
         <softwaremobility.darkgeat.objects.WindSpeedControl
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_gravity="center"
+            app:layout_rowSpan="3"
             android:layout_marginTop="@dimen/normal_padding"
             android:id="@+id/SpeedControl"
-            custom:wind_direction="north"/>
+            app:wind_direction="north"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:textColor="@color/detail_accent_label"
+            app:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:text="@string/pressure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:id="@+id/detail_pressure_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_gravity="center_vertical"
+            android:textColor="@color/detail_accent_label"
+            android:layout_marginLeft="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:text="@string/wind"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:id="@+id/detail_wind_text" />
+
+    </android.support.v7.widget.GridLayout>
 
 
-</ScrollView>
+</LinearLayout>

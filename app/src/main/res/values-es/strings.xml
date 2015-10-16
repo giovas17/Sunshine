@@ -10,11 +10,14 @@
     <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) [CHAR LIMIT=20] -->
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g>, \n<xliff:g id="date">%2$s</xliff:g></string>
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
-    <string name="format_humidity">Humedad: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
-    <string name="format_pressure">Presión: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
-    <string name="format_wind_kmh">Viento: <xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
-    <string name="format_wind_mph">Viento: <xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_humidity"><xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_pressure"><xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_wind_kmh"><xliff:g id="pressure">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_mph"><xliff:g id="pressure">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="format_sharing_weather">El Clima para <xliff:g id="day">%1$1s</xliff:g> es <xliff:g id="weather">%2$s</xliff:g></string>
+    <string name="humidity">Humedad:</string>
+    <string name="pressure">Presión:</string>
+    <string name="wind">Viento:</string>
     <!-- Weather Description -->
     <string name="clear">Despejado</string>
     <string name="fog">Neblina</string>

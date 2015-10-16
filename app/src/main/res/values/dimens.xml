@@ -4,5 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="double_vertical_padding">32dp</dimen>
     <dimen name="normal_padding">10dp</dimen>
+    <dimen name="text_detail">22sp</dimen>
+    <dimen name="max_todays_icon">130dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
     <dimen name="space">6dp</dimen>
 </resources>

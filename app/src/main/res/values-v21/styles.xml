@@ -24,4 +24,10 @@
     <style name="ForecastTheme" parent="AppTheme">
     </style>
 
+    <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="elevation">@dimen/appbar_elevation</item>
+        <item name="popupTheme">@style/Theme.AppCompat.Light</item>
+    </style>
+
 </resources>
