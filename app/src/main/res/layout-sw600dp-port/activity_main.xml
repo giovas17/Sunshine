@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:elevation="@dimen/appbar_elevation"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/sunshine_blue"
+        android:scaleType="center"
+        android:id="@+id/imageLogoView"
+        android:elevation="@dimen/appbar_elevation"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_logo"/>
+
+    <View
+        android:id="@+id/layout_center"
+        android:layout_width="match_parent"
+        android:elevation="@dimen/appbar_elevation"
+        android:layout_height="@dimen/double_vertical_padding"
+        android:background="@color/sunshine_blue"
+        android:layout_below="@+id/imageLogoView"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail_container"
+        android:layout_below="@id/imageLogoView"
+        android:layout_marginLeft="@dimen/double_vertical_padding"
+        android:layout_marginStart="@dimen/double_vertical_padding"
+        android:layout_marginRight="@dimen/double_vertical_padding"
+        android:layout_marginEnd="@dimen/double_vertical_padding"
+        android:minHeight="@dimen/max_height_detail_view"
+        android:elevation="@dimen/appbar_elevation"/>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/IdForecastFragment"
+        android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
+        android:layout_below="@id/detail_container"
+        tools:layout="@android:layout/list_content"/>
+
+</RelativeLayout>

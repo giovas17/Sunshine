@@ -28,7 +28,10 @@ public class ForeCastAdapter extends CursorAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        if(!MainActivity.mTwoPane)
+            return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        else
+            return VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override

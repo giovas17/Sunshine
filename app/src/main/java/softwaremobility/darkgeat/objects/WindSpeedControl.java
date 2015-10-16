@@ -1,6 +1,7 @@
 package softwaremobility.darkgeat.objects;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import softwaremobility.darkgeat.sunshine.R;
@@ -88,6 +90,12 @@ public class WindSpeedControl extends View{
         int wSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int myWidth = wSpecSize;
 
+        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+        if(metrics.densityDpi >= DisplayMetrics.DENSITY_XHIGH){
+            width = 300;
+            height = 300;
+        }
+
         if(hSpecMode == MeasureSpec.EXACTLY){
             height = hSpecSize;
         }
@@ -99,7 +107,7 @@ public class WindSpeedControl extends View{
         myWidth = width;
 
 
-        setMeasuredDimension(myWidth,myHeight);
+        setMeasuredDimension(myWidth, myHeight);
     }
 
     @Override

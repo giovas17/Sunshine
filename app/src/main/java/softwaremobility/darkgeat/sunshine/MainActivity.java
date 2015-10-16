@@ -30,7 +30,7 @@ import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
     private String mLocation;
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
     public static final String DETAILFRAGMENT_TAG = "DetailFragmentTAG";
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final String PROPERTY_REG_ID = "registration_id";
