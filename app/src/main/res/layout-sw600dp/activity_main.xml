@@ -62,15 +62,16 @@
             android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
             tools:layout="@android:layout/list_content"/>
 
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:id="@+id/detail_container"
-            android:elevation="@dimen/appbar_elevation"
-            android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
-            android:paddingEnd="@dimen/abc_list_item_padding_horizontal_material"
-            android:paddingBottom="@dimen/abc_list_item_padding_horizontal_material"/>
+            app:cardElevation="@dimen/appbar_elevation"
+            app:cardPreventCornerOverlap="false"
+            android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"/>
 
     </LinearLayout>
 

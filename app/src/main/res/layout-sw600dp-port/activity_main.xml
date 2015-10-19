@@ -32,7 +32,7 @@
         android:background="@color/sunshine_blue"
         android:layout_below="@+id/imageLogoView"/>
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/detail_container"
@@ -42,7 +42,8 @@
         android:layout_marginRight="@dimen/double_vertical_padding"
         android:layout_marginEnd="@dimen/double_vertical_padding"
         android:minHeight="@dimen/max_height_detail_view"
-        android:elevation="@dimen/appbar_elevation"/>
+        app:cardElevation="@dimen/appbar_elevation"
+        app:cardPreventCornerOverlap="false"/>
 
     <fragment
         android:layout_width="match_parent"
