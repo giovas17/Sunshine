@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +27,10 @@ import java.sql.Connection;
 import softwaremobility.darkgeat.sunshine.sync.SyncAdapter;
 
 
-public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
+public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
     private String mLocation;
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
     public static final String DETAILFRAGMENT_TAG = "DetailFragmentTAG";
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -41,6 +43,10 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         SENDER_ID = getString(R.string.projectIdNumber);
 

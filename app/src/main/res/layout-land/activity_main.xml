@@ -28,9 +28,13 @@
         android:id="@+id/IdForecastFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/normal_padding"
         android:name="softwaremobility.darkgeat.sunshine.ForecastFragment"
+        android:layout_marginLeft="@dimen/triple_vertical_padding"
+        android:layout_marginStart="@dimen/triple_vertical_padding"
+        android:layout_marginRight="@dimen/triple_vertical_padding"
+        android:layout_marginEnd="@dimen/triple_vertical_padding"
         tools:layout="@android:layout/list_content"/>
 
 </RelativeLayout>
-
