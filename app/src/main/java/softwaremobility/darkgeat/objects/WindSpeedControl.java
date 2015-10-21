@@ -91,9 +91,10 @@ public class WindSpeedControl extends View{
         int myWidth = wSpecSize;
 
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
-        if(metrics.densityDpi >= DisplayMetrics.DENSITY_XHIGH){
+        if(metrics.densityDpi >= DisplayMetrics.DENSITY_XXHIGH){
             width = 300;
             height = 300;
+            textSize = 24f;
         }
 
         if(hSpecMode == MeasureSpec.EXACTLY){

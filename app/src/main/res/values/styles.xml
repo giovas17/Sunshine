@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/sunshine_blue</item>
         <item name="colorPrimaryDark">@color/sunshine_dark_blue</item>
         <item name="colorAccent">@color/sunshine_accent</item>
+        <item name="android:windowBackground">@color/background_default</item>
         <item name="toolbarStyle">@style/Toolbar</item>
         <!-- Customize your theme here. -->
     </style>
@@ -19,10 +20,11 @@
     <style name="ForecastTheme" parent="AppTheme">
     </style>
 
+    <style name="AppTheme.Details" parent="@style/AppTheme"/>
+
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="elevation">@dimen/appbar_elevation</item>
         <item name="popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
-
 </resources>

@@ -52,8 +52,8 @@
         android:adjustViewBounds="true"
         app:layout_columnWeight="1"
         app:layout_gravity="center_vertical"
-        android:maxWidth="140dp"
-        android:maxHeight="140dp"
+        android:maxWidth="@dimen/max_todays_icon"
+        android:maxHeight="@dimen/max_todays_icon"
         android:src="@drawable/art_clear"
         android:id="@+id/detail_icon_weather" />
 
