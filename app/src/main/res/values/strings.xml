@@ -5,7 +5,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_map">Location on Map</string>
     <string name="action_share">Share</string>
-    <string name="api_key" translatable="false">8aabee841cffd35feb4de1776e01132c</string>
+    <string name="api_key" translatable="false">13fcd02f811995cc7a0520fa211ec13b</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) [CHAR LIMIT=20] -->
