@@ -8,8 +8,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
@@ -19,7 +17,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -132,7 +129,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 startActivity(intent);*/
                 Cursor cursor = (Cursor) mForecastAdapter.getItem(position);
                 if (cursor != null) {
-                    String locationSetting = Utility.getPreffrerredLocation(getActivity());
+                    String locationSetting = Utility.getPrefererredLocation(getActivity());
                     ((Callback) getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
                             cursor.getLong(COL_WEATHER_DATE)));
                 }
@@ -185,7 +182,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private void updateData() {
         /*AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intentAlarm = new Intent(getActivity(),SunshineService.AlarmReceiver.class);
-        intentAlarm.putExtra(SunshineService.locationExtraKey,Utility.getPreffrerredLocation(getActivity()));
+        intentAlarm.putExtra(SunshineService.locationExtraKey,Utility.getPrefererredLocation(getActivity()));
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(),0,intentAlarm,PendingIntent.FLAG_ONE_SHOT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, alarmIntent);*/
         SyncAdapter.syncImmediately(getActivity());
@@ -198,7 +195,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String locationSetting = Utility.getPreffrerredLocation(getActivity());
+        String locationSetting = Utility.getPrefererredLocation(getActivity());
 
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
         Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(

@@ -2,6 +2,7 @@ package softwaremobility.darkgeat.sunshine.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,7 +16,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +29,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.format.Time;
 import android.util.Log;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +46,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
+import softwaremobility.darkgeat.muzei.WeatherMuzeiSource;
 import softwaremobility.darkgeat.sunshine.MainActivity;
 import softwaremobility.darkgeat.sunshine.R;
 import softwaremobility.darkgeat.sunshine.Utility;
@@ -52,6 +60,8 @@ import softwaremobility.darkgeat.sunshine.data.WeatherContract;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    public static final String ACTION_DATA_UPDATED =
+            "com.example.android.sunshine.app.ACTION_DATA_UPDATED";
     private static final int hours = 3;
     private static final int SYNC_INTERVAL = hours * 60; // 3 hours
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL / hours;
@@ -96,7 +106,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "onPerformSync called.");
-        String zipcode = Utility.getPreffrerredLocation(context);
+        String zipcode = Utility.getPrefererredLocation(context);
 
         if (zipcode.length() > 0) {
 
@@ -377,6 +387,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
                         WeatherContract.WeatherEntry.COLUMN_DATE + " <= ?",
                         new String[] {Long.toString(dayTime.setJulianDay(julianStartDay-1))});
+
+                updateWidgets();
+                updateMuzei();
                 notifyWeather();
             }
 
@@ -438,6 +451,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         return locationId;
     }
 
+    private void updateWidgets() {
+        Context context = getContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
+    }
+
+    private void updateMuzei() {
+        // Muzei is only compatible with Jelly Bean MR1+ devices, so there's no need to update the
+        // Muzei background on lower API level devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Context context = getContext();
+            context.startService(new Intent(ACTION_DATA_UPDATED)
+                    .setClass(context, WeatherMuzeiSource.class));
+        }
+    }
+
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime){
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
@@ -460,7 +491,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (System.currentTimeMillis() - lasSync >= DAY_IN_MILLIS) {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
-                String locationQuery = Utility.getPreffrerredLocation(context);
+                String locationQuery = Utility.getPrefererredLocation(context);
                 Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationQuery, System.currentTimeMillis());
 
                 // we'll query our contentProvider, as always
@@ -476,6 +507,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     String title = context.getString(R.string.app_name);
                     boolean isMetric = Utility.isMetric(context);
 
+                    Resources resources = context.getResources();
+                    int artResourceId = Utility.getArtResourceForWeatherCondition(weatherId);
+                    String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
+
+                    // On Honeycomb and higher devices, we can retrieve the size of the large icon
+                    // Prior to that, we use a fixed size
+                    @SuppressLint("InlinedApi")
+                    int largeIconWidth = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            ? resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
+                            : resources.getDimensionPixelSize(R.dimen.notification_large_icon_default);
+                    @SuppressLint("InlinedApi")
+                    int largeIconHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            ? resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
+                            : resources.getDimensionPixelSize(R.dimen.notification_large_icon_default);
+
+                    // Retrieve the large icon
+                    Bitmap largeIcon;
+                    try {
+                        largeIcon = Glide.with(context)
+                                .load(artUrl)
+                                .asBitmap()
+                                .error(artResourceId)
+                                .fitCenter()
+                                .into(largeIconWidth, largeIconHeight).get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        Log.e(LOG_TAG, "Error retrieving large icon from " + artUrl, e);
+                        largeIcon = BitmapFactory.decodeResource(resources, artResourceId);
+                    }
                     // Define the text of the forecast.
                     String contentText = String.format(context.getString(R.string.format_notification),
                             desc,

@@ -26,9 +26,22 @@ import static softwaremobility.darkgeat.sunshine.sync.SyncAdapter.LOCATION_STATU
  */
 public class Utility {
 
-    public static String getPreffrerredLocation(Context context) {
+    public static String getPrefererredLocation(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(context.getString(R.string.pref_location_key), context.getString(R.string.default_id_location));
+    }
+
+    /**
+     * Helper method to return whether or not Sunshine is using local graphics.
+     *
+     * @param context Context to use for retrieving the preference
+     * @return true if Sunshine is using local graphics, false otherwise.
+     */
+    public static boolean usingLocalGraphics(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String sunshineArtPack = context.getString(R.string.pref_art_pack_sunshine);
+        return prefs.getString(context.getString(R.string.pref_art_pack_key),
+                sunshineArtPack).equals(sunshineArtPack);
     }
 
     public static boolean isMetric(Context mContext) {
@@ -45,6 +58,18 @@ public class Utility {
             temp = temperature;
         }
         return mContext.getString(R.string.format_temperature, temp);
+    }
+
+    public static String formatTemperature(Context context, double temperature) {
+        // Data stored in Celsius by default.  If user prefers to see in Fahrenheit, convert
+        // the values here.
+        String suffix = "\u00B0";
+        if (!isMetric(context)) {
+            temperature = (temperature * 1.8) + 32;
+        }
+
+        // For presentation, assume the user doesn't care about tenths of a degree.
+        return String.format(context.getString(R.string.format_temperature), temperature);
     }
 
     public static String formatDate(long dateInMillis) {
@@ -93,6 +118,38 @@ public class Utility {
             // Otherwise, use the form "Mon Jun 3"
             SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
             return CapitalizeDate(shortenedDateFormat.format(dateInMillis));
+        }
+    }
+
+    public static String getFriendlyDayString(Context context, long dateInMillis, boolean displayLongToday) {
+        // The day string for forecast uses the following logic:
+        // For today: "Today, June 8"
+        // For tomorrow:  "Tomorrow"
+        // For the next 5 days: "Wednesday" (just the day name)
+        // For all days after that: "Mon Jun 8"
+
+        Time time = new Time();
+        time.setToNow();
+        long currentTime = System.currentTimeMillis();
+        int julianDay = Time.getJulianDay(dateInMillis, time.gmtoff);
+        int currentJulianDay = Time.getJulianDay(currentTime, time.gmtoff);
+
+        // If the date we're building the String for is today's date, the format
+        // is "Today, June 24"
+        if (displayLongToday && julianDay == currentJulianDay) {
+            String today = context.getString(R.string.today);
+            int formatId = R.string.format_full_friendly_date;
+            return String.format(context.getString(
+                    formatId,
+                    today,
+                    getFormattedMonthDay(context, dateInMillis)));
+        } else if ( julianDay < currentJulianDay + 7 ) {
+            // If the input date is less than a week in the future, just return the day name.
+            return getDayName(context, dateInMillis);
+        } else {
+            // Otherwise, use the form "Mon Jun 3"
+            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
+            return shortenedDateFormat.format(dateInMillis);
         }
     }
 
@@ -398,5 +455,34 @@ public class Utility {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(context.getString(R.string.pref_loc_status),LOCATION_STATUS_UNKNOWN);
         editor.apply();
+    }
+
+    public static String getImageUrlForWeatherCondition(int weatherId) {
+        // Based on weather code data found at:
+        // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+        if (weatherId >= 200 && weatherId <= 232) {
+            return "http://upload.wikimedia.org/wikipedia/commons/2/28/Thunderstorm_in_Annemasse,_France.jpg";
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            return "http://upload.wikimedia.org/wikipedia/commons/a/a0/Rain_on_leaf_504605006.jpg";
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            return "http://upload.wikimedia.org/wikipedia/commons/6/6c/Rain-on-Thassos.jpg";
+        } else if (weatherId == 511) {
+            return "http://upload.wikimedia.org/wikipedia/commons/b/b8/Fresh_snow.JPG";
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            return "http://upload.wikimedia.org/wikipedia/commons/6/6c/Rain-on-Thassos.jpg";
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            return "http://upload.wikimedia.org/wikipedia/commons/b/b8/Fresh_snow.JPG";
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            return "http://upload.wikimedia.org/wikipedia/commons/e/e6/Westminster_fog_-_London_-_UK.jpg";
+        } else if (weatherId == 761 || weatherId == 781) {
+            return "http://upload.wikimedia.org/wikipedia/commons/d/dc/Raised_dust_ahead_of_a_severe_thunderstorm_1.jpg";
+        } else if (weatherId == 800) {
+            return "http://upload.wikimedia.org/wikipedia/commons/7/7e/A_few_trees_and_the_sun_(6009964513).jpg";
+        } else if (weatherId == 801) {
+            return "http://upload.wikimedia.org/wikipedia/commons/e/e7/Cloudy_Blue_Sky_(5031259890).jpg";
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            return "http://upload.wikimedia.org/wikipedia/commons/5/54/Cloudy_hills_in_Elis,_Greece_2.jpg";
+        }
+        return null;
     }
 }
