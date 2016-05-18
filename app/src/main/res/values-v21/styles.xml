@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/sunshine_blue</item>
         <item name="colorPrimaryDark">@color/sunshine_dark_blue</item>
         <item name="colorAccent">@color/sunshine_accent</item>
+        <item name="android:windowBackground">@color/background_default</item>
         <item name="android:navigationBarColor">@color/sunshine_blue</item>
         <item name="toolbarStyle">@style/Toolbar</item>
         <!-- Customize your theme here. -->
@@ -23,6 +24,13 @@
     <!-- Main activity theme. -->
     <style name="ForecastTheme" parent="AppTheme">
     </style>
+
+    <style name="AppTheme.Details" parent="@style/AppTheme">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/details_window_enter_transition</item>
+        <item name="android:windowReturnTransition">@transition/details_window_return_transition</item>
+    </style>
+
 
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
