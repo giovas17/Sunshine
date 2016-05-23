@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="softwaremobility.darkgeat.sunshine" >
+    package="softwaremobility.darkgeat.sunshine">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
 
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-    <permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE"
+    <permission
+        android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="softwaremobility.darkgeat.sunshine.permission.C2D_MESSAGE" />
+
+    <permission
+        android:name="softwaremobility.darkgeat.LICENCE_TO_KILL"
+        android:label="Licenced to Kill"
+        android:protectionLevel="dangerous"></permission>
+
+    <!-- Required to act as a custom watch face. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/ForecastTheme"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/ForecastTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,40 +53,42 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <provider
-            android:authorities="softwaremobility.darkgeat.sunshine.app"
             android:name=".data.WeatherProvider"
+            android:authorities="softwaremobility.darkgeat.sunshine.app"
             android:exported="false"
-            android:syncable="true"/>
+            android:syncable="true" />
+
         <service android:name=".services.AuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
         </service>
-        <service android:name=".services.SunshineSyncService"
+        <service
+            android:name=".services.SunshineSyncService"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/sync_adapter"/>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
         </service>
 
         <!-- GCM receiver - Commented out until we write the class -->
         <receiver
             android:name=".receivers.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
                 <category android:name="softwaremobility.darkgeat.sunshine" />
             </intent-filter>
         </receiver>
     </application>
-
-    <permission android:name="softwaremobility.darkgeat.LICENCE_TO_KILL"
-        android:protectionLevel="dangerous"
-        android:label="Licenced to Kill">
-    </permission>
 
 </manifest>
